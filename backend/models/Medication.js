@@ -8,7 +8,7 @@ const Medication = sequelize.define('Medication', {
     primaryKey: true
   },
   userId: {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING(128),
     allowNull: false,
     references: {
       model: 'Users',
