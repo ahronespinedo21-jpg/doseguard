@@ -1,0 +1,30 @@
+{
+  "name": "doseguard-backend",
+  "version": "1.0.0",
+  "description": "DoseGuard: A Daily Dose Reminder - Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup": "node setup.js",
+    "create-admin": "node create-admin.js",
+    "create-test-user": "node create-test-data.js",
+    "create-new-user": "node create-new-user.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "express-rate-limit": "^8.5.1",
+    "firebase-admin": "^13.10.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.6.0",
+    "sequelize": "^6.35.0",
+    "validator": "^13.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

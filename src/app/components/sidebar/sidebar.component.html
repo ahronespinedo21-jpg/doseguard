@@ -1,0 +1,82 @@
+<!-- Sidebar Overlay for Mobile -->
+<div *ngIf="sidebarOpen" (click)="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] md:hidden"></div>
+
+<!-- Main Sidebar -->
+<div
+  [class.translate-x-0]="sidebarOpen || isDesktop"
+  [class.-translate-x-full]="!sidebarOpen && !isDesktop"
+  class="fixed md:static left-0 top-0 w-64 h-screen shadow-lg z-[70] flex flex-col transition-transform duration-300"
+  style="background-color: var(--card);"
+>
+  <!-- Header -->
+  <div class="p-6 border-b transition-colors duration-300" 
+       style="background: linear-gradient(to bottom, var(--card), var(--background)); border-color: rgba(0,0,0,0.05);">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <img src="/assets/images/doseguard-logo.png" alt="DoseGuard Logo" 
+             class="w-[46px] h-[46px] rounded-xl object-contain shadow-md transition-all duration-300 transform hover:scale-105 flex-shrink-0" />
+        <div>
+          <h1 class="font-bold text-base tracking-tight leading-none" style="color: var(--text);">DoseGuard</h1>
+          <p class="text-[10px] font-medium uppercase tracking-widest mt-1" style="color: var(--text-muted);">Health Manager</p>
+        </div>
+      </div>
+      <button (click)="closeSidebar()" class="md:hidden hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 transition-colors duration-200">
+        <svg class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 px-4 py-6 space-y-2">
+    <button
+      *ngFor="let item of menuItems"
+      (click)="navigateTo(item.route)"
+      [class.active-item]="currentRoute === item.route"
+      class="w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between space-x-3 font-semibold group relative"
+      [style.color]="currentRoute === item.route ? 'var(--primary)' : 'var(--text-muted)'"
+      [style.background-color]="currentRoute === item.route ? 'rgba(124, 58, 237, 0.1)' : 'transparent'"
+    >
+      <div class="flex items-center space-x-3 flex-1">
+        <div class="w-8 h-8 flex items-center justify-center rounded-lg transition-colors duration-300"
+             [class.bg-purple-100]="currentRoute === item.route"
+             [class.text-purple-600]="currentRoute === item.route"
+             [class.text-slate-400]="currentRoute !== item.route">
+          <svg *ngIf="item.icon === 'dashboard'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <svg *ngIf="item.icon === 'chatbot'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+          <svg *ngIf="item.icon === 'settings'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <svg *ngIf="item.icon === 'reminders'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <svg *ngIf="item.icon === 'lowstock'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0-10l-3 3m6 0l3-3M3 20h18a2 2 0 002-2V4a2 2 0 00-2-2H3a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <span class="group-hover:text-purple-600 transition-colors duration-300 text-[15px]" 
+              [class.text-purple-600]="currentRoute === item.route">{{ item.label }}</span>
+      </div>
+      <!-- Badge -->
+      <div *ngIf="item.badge" class="notification-wrapper flex items-center justify-center">
+        <span class="notification-badge bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0 min-w-max">{{ item.badge }}</span>
+      </div>
+    </button>
+  </nav>
+
+  <!-- Settings -->
+  <div class="px-4 pb-6 border-t border-gray-100 dark:border-gray-800 space-y-2 pt-6">
+    <button (click)="logout()" class="w-full text-left px-4 py-3 rounded-lg bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-md hover:shadow-lg transition-all duration-300 font-semibold flex items-center text-sm transform hover:scale-105">
+      <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+      </svg>
+      Log Out
+    </button>
+  </div>
+</div>

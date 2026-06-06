@@ -1,0 +1,290 @@
+<div class="min-h-screen w-full p-4 pb-6 overflow-x-hidden bg-background">
+  <div class="mx-auto max-w-[400px] sm:max-w-2xl px-2 sm:px-0">
+    <!-- Success Modal -->
+    <div *ngIf="successMessage"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-300">
+      <div
+        class="rounded-[28px] p-8 max-w-sm w-full shadow-2xl transform transition-all scale-100 animate-[bounceIn_0.5s_ease-out]"
+        style="background-color: var(--card);">
+        <div class="flex justify-center mb-6">
+          <div class="rounded-2xl p-4 bg-[#10B981]/10">
+            <svg class="h-12 w-12 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        </div>
+        <h2 class="text-[24px] font-bold text-center mb-1" style="color: var(--text);">Success!</h2>
+        <p class="text-center font-medium text-[15px] mb-2 text-[#10B981]">Medication Updated Successfully</p>
+        <p class="text-center text-[13px] mb-8" style="color: var(--text-muted);">Redirecting to dashboard...</p>
+        <button (click)="goToDashboard()"
+          class="w-full text-white font-semibold py-3.5 rounded-[16px] transition-all duration-300 tap-effect"
+          style="background: var(--primary-gradient); box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);">
+          Go to Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- Header with Gradient -->
+    <div class="rounded-[24px] p-6 mb-6 relative overflow-hidden"
+      style="background: var(--primary-gradient); box-shadow: 0 15px 30px -5px rgba(124, 58, 237, 0.3);">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-white opacity-10 rounded-full blur-xl"></div>
+      <div class="flex items-center gap-4 relative z-10">
+        <button (click)="goBack()" class="p-2.5 rounded-[14px] transition-colors hover:bg-white/20 tap-effect"
+          style="background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);">
+          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div>
+          <h1 class="text-[20px] font-bold text-white tracking-tight leading-tight">Edit Medication</h1>
+          <p class="text-[13px] text-white/90 font-medium mt-0.5">Update your medication details</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage"
+      class="mb-5 p-4 rounded-2xl text-[13px] font-medium flex items-start gap-3 bg-[#F43F5E]/10 text-[#E11D48] border border-[#F43F5E]/20">
+      <svg class="h-5 w-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clip-rule="evenodd" />
+      </svg>
+      <span class="leading-relaxed">{{ errorMessage }}</span>
+    </div>
+
+    <form [formGroup]="medicationForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <!-- Card: Basic Information -->
+      <div class="premium-card p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="rounded-[12px] p-2 bg-[#7C3AED]/10">
+            <svg class="h-5 w-5 text-[#7C3AED]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 class="text-[17px] font-bold" style="color: var(--text);">Basic Information</h3>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">Medication Name</label>
+            <div class="relative">
+              <input type="text" formControlName="name" [disabled]="isLoading"
+                class="w-full pl-11 pr-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);" placeholder="e.g., Aspirin" />
+              <svg class="h-5 w-5 absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">Category</label>
+            <div class="relative">
+              <input type="text" formControlName="category" [disabled]="isLoading"
+                class="w-full pl-11 pr-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);" placeholder="e.g., Pain Relief" />
+              <svg class="h-5 w-5 absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Dosage Information -->
+      <div class="premium-card p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="rounded-[12px] p-2 bg-[#F59E0B]/10">
+            <svg class="h-5 w-5 text-[#F59E0B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h3 class="text-[17px] font-bold" style="color: var(--text);">Dosage Information</h3>
+        </div>
+
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">Dosage Type</label>
+              <input type="text" formControlName="dosageType" [disabled]="isLoading"
+                class="w-full px-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);" placeholder="e.g. Tablet" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">Dosage</label>
+              <input type="text" formControlName="dosage" [disabled]="isLoading"
+                class="w-full px-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);" placeholder="e.g. 1 tablet" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">Stock Level (1 - 30 tablets)</label>
+            <input type="number" formControlName="stockLevel" [disabled]="isLoading"
+              class="w-full px-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+              style="color: var(--text);"
+              [class.border-red-500]="medicationForm.get('stockLevel')?.invalid && medicationForm.get('stockLevel')?.touched"
+              [style.background-color]="medicationForm.get('stockLevel')?.invalid && medicationForm.get('stockLevel')?.touched ? '#FFF1F2' : ''"
+              placeholder="30" />
+            <p *ngIf="medicationForm.get('stockLevel')?.invalid && medicationForm.get('stockLevel')?.touched"
+              class="text-[11px] font-semibold mt-1.5 ml-1 text-[#E11D48]">Stock level must be between 1 and 30 tablets</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Reminder Schedule -->
+      <div class="premium-card p-6">
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center gap-3">
+            <div class="rounded-[12px] p-2 bg-[#10B981]/10">
+              <svg class="h-5 w-5 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-[17px] font-bold" style="color: var(--text);">Reminder Schedule</h3>
+          </div>
+        </div>
+
+        <div class="space-y-3.5">
+          <div *ngFor="let time of selectedTimes; let i = index" class="flex items-center gap-3">
+            <div class="flex-1 relative">
+              <input type="text" (click)="openTimePicker(i)" [value]="selectedTimes[i] || ''" [disabled]="isLoading"
+                readonly
+                class="w-full pl-11 pr-12 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);" [placeholder]="'Tap to set Time ' + (i + 1)" />
+              <svg class="h-5 w-5 absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div *ngIf="selectedTimes[i]" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#10B981]">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <button *ngIf="selectedTimes[i]" type="button" (click)="clearTime(i)"
+              class="p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-[#F43F5E]/10 hover:text-[#F43F5E] text-slate-400 transition-colors tap-effect">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Additional Notes -->
+      <div class="premium-card p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="rounded-[12px] p-2 bg-slate-100 dark:bg-slate-800">
+            <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </div>
+          <h3 class="text-[17px] font-bold" style="color: var(--text);">Additional Notes</h3>
+        </div>
+        <textarea formControlName="notes" [disabled]="isLoading" rows="3"
+          class="w-full px-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] transition-all duration-300 text-[15px] font-medium resize-none"
+          style="color: var(--text);" placeholder="e.g. Take after meal..."></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="pt-4">
+        <button type="submit" [disabled]="isLoading"
+          class="w-full text-white font-bold py-4 rounded-[16px] transition-all duration-300 tap-effect disabled:opacity-50"
+          style="background: var(--primary-gradient); box-shadow: 0 15px 30px -5px rgba(124, 58, 237, 0.4);">
+          {{isLoading ? 'Updating...' : 'Update Medication'}}
+        </button>
+      </div>
+    </form>
+
+    <!-- Time Picker Modal -->
+    <div *ngIf="showTimePicker"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+      <div class="absolute inset-0" (click)="closeTimePicker()"></div>
+      <div
+        class="rounded-[32px] p-6 w-full max-w-[340px] shadow-2xl relative z-10 transform transition-all animate-[fadeIn_0.2s_ease-out] overflow-y-auto max-h-[85vh]"
+        style="background-color: var(--card); border: 1px solid rgba(255,255,255,0.1);">
+        <div class="flex items-center justify-center mb-5 relative">
+          <h3 class="text-[20px] font-bold text-center" style="color: var(--text);">Select Time</h3>
+          <button type="button" (click)="closeTimePicker()"
+            class="p-2 rounded-full transition-colors absolute right-0"
+            style="background-color: var(--background); color: var(--text-muted);">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-4 mb-5 text-center rounded-[24px] border shadow-inner"
+          style="background: linear-gradient(135deg, var(--background), var(--card)); border-color: rgba(255,255,255,0.05);">
+          <p class="text-[34px] font-black tracking-tight"
+            style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            {{ tempTime }}
+          </p>
+        </div>
+
+        <div class="flex gap-3 mb-4">
+          <!-- Hour -->
+          <div class="flex-1 rounded-[20px] p-2 border" style="background-color: var(--background); border-color: rgba(0,0,0,0.05);">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-center mb-2 mt-1" style="color: var(--text-muted);">Hour</p>
+            <div class="flex flex-col items-center gap-1">
+              <button type="button" (click)="incrementHour()" class="w-full p-2 rounded-xl flex justify-center hover:bg-[#7C3AED]/10" style="color: var(--text);">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" /></svg>
+              </button>
+              <input type="number" [value]="tempHour" (change)="onHourChange($event)" min="1" max="12" class="w-full py-2 text-xl font-bold text-center rounded-xl bg-transparent" style="color: var(--text);"/>
+              <button type="button" (click)="decrementHour()" class="w-full p-2 rounded-xl flex justify-center hover:bg-[#7C3AED]/10" style="color: var(--text);">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Minute -->
+          <div class="flex-1 rounded-[20px] p-2 border" style="background-color: var(--background); border-color: rgba(0,0,0,0.05);">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-center mb-2 mt-1" style="color: var(--text-muted);">Minute</p>
+            <div class="flex flex-col items-center gap-1">
+              <button type="button" (click)="incrementMinute()" class="w-full p-2 rounded-xl flex justify-center hover:bg-[#7C3AED]/10" style="color: var(--text);">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" /></svg>
+              </button>
+              <input type="number" [value]="tempMinute" (change)="onMinuteChange($event)" min="0" max="59" class="w-full py-2 text-xl font-bold text-center rounded-xl bg-transparent" style="color: var(--text);"/>
+              <button type="button" (click)="decrementMinute()" class="w-full p-2 rounded-xl flex justify-center hover:bg-[#7C3AED]/10" style="color: var(--text);">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+            </div>
+          </div>
+          <!-- AM/PM -->
+          <div class="flex-1 rounded-[20px] p-2 border flex flex-col justify-center gap-2" style="background-color: var(--background); border-color: rgba(255,255,255,0.05);">
+            <button type="button" (click)="togglePeriod()" class="w-full py-3 rounded-xl font-bold text-sm transition-all" [style.background-color]="tempPeriod === 'AM' ? 'var(--primary)' : 'var(--card)'" [style.color]="tempPeriod === 'AM' ? 'white' : 'var(--text)'">AM</button>
+            <button type="button" (click)="togglePeriod()" class="w-full py-3 rounded-xl font-bold text-sm transition-all" [style.background-color]="tempPeriod === 'PM' ? 'var(--primary)' : 'var(--card)'" [style.color]="tempPeriod === 'PM' ? 'white' : 'var(--text)'">PM</button>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <p class="text-[12px] font-bold mb-2 ml-1" style="color: var(--text-muted);">Quick Select</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button *ngFor="let preset of timePresets" type="button" (click)="setPresetTime(preset)"
+              class="px-1 py-2 font-bold rounded-[12px] transition-colors text-[11px] border hover:bg-[#7C3AED] hover:text-white"
+              style="background-color: var(--background); color: var(--text); border-color: rgba(0,0,0,0.05);">
+              {{ preset }}
+            </button>
+          </div>
+        </div>
+
+        <button type="button" (click)="confirmTime()"
+          class="w-full text-white font-bold py-3.5 rounded-[16px] transition-all tap-effect"
+          style="background: var(--primary-gradient); box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.4);">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-bottom-navigation></app-bottom-navigation>

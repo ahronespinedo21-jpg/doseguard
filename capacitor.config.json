@@ -1,0 +1,24 @@
+{
+  "appId": "com.doseguard.app",
+  "appName": "DoseGuard",
+  "webDir": "dist/doseguard",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000,
+      "launchAutoHide": true,
+      "backgroundColor": "#6D4AFF",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false
+    },
+    "LocalNotifications": {
+      "sound": "default",
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#4CAF50",
+      "vibrate": true
+    }
+  }
+}

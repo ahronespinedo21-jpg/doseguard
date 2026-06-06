@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  network_security_config.xml
+  Scopes cleartext (HTTP) traffic ONLY to the dev LAN IP and emulator alias.
+  All other traffic uses the system default (HTTPS required).
+  For production, remove the <domain-config> blocks.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Allow HTTP to local dev backend on LAN -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Physical device on same WiFi -->
+        <domain includeSubdomains="false">192.168.10.206</domain>
+        <!-- Android emulator alias -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <!-- Localhost fallback (web browser testing) -->
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

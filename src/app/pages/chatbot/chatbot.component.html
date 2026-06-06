@@ -1,0 +1,105 @@
+<div class="min-h-screen w-full bg-[#F8FAFC] dark:bg-[#020617] transition-colors duration-300 overflow-x-hidden pb-24">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 text-white px-6 py-6 shadow-md relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)] pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto flex items-center justify-between relative z-10">
+      <div class="flex items-center gap-3">
+        <div class="bg-white/10 rounded-2xl p-2.5 backdrop-blur-md border border-white/20">
+          <svg class="h-6 w-6 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-2xl font-black tracking-tight text-white leading-tight">AI Medication Assistant</h1>
+          <p class="text-xs text-indigo-100 font-bold uppercase tracking-wider">Powered by DoseGuard Health AI</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-4 md:px-6 py-6">
+    <!-- Chat Arena -->
+    <div class="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-3xl shadow-premium overflow-hidden flex flex-col h-[65vh]">
+      <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+        
+        <!-- Welcome Alert Message -->
+        <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40 rounded-2xl p-4 flex gap-3 text-indigo-800 dark:text-indigo-300 text-xs font-semibold leading-relaxed">
+          <span>💡</span>
+          <p>You can ask questions regarding dosage guidelines, potential drug interactions, side effects, or safety warnings. This AI assistant is for informational support only; consult a healthcare professional for clinical decisions.</p>
+        </div>
+
+        <div *ngFor="let message of messages" [class.flex-row-reverse]="message.sender === 'user'" class="flex gap-3.5">
+          <!-- Avatar Icon -->
+          <div class="flex-shrink-0">
+            <div [class.bg-indigo-500]="message.sender === 'user'" [class.bg-purple-600]="message.sender === 'ai'"
+              class="flex items-center justify-center h-9 w-9 rounded-2xl shadow-sm border border-white/20 text-white font-bold text-sm">
+              <span *ngIf="message.sender === 'ai'">🤖</span>
+              <span *ngIf="message.sender === 'user'">👤</span>
+            </div>
+          </div>
+          <!-- Message Bubble Container -->
+          <div class="flex-1" [class.text-right]="message.sender === 'user'">
+            <div [ngClass]="message.sender === 'user' 
+              ? 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white' 
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/50 dark:border-slate-800'"
+              class="rounded-2xl px-4 py-3 inline-block max-w-[85%] text-left shadow-sm text-sm font-semibold leading-relaxed">
+              <p>{{ message.message }}</p>
+            </div>
+            <p class="text-[9px] font-bold text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider px-1">
+              {{ message.timestamp | date:'shortTime' }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div *ngIf="isLoading" class="flex gap-3.5">
+          <div class="flex-shrink-0">
+            <div class="bg-purple-600 flex items-center justify-center h-9 w-9 rounded-2xl text-white font-bold text-sm shadow-sm">
+              🤖
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-800 rounded-2xl px-4 py-3.5 inline-block shadow-sm">
+              <div class="flex gap-1.5 items-center justify-center py-1">
+                <div class="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce"></div>
+                <div class="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                <div class="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggested Questions -->
+      <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50" *ngIf="messages.length === 1">
+        <p class="text-[10px] uppercase tracking-wider font-extrabold text-slate-400 dark:text-slate-500 mb-2.5">Suggested Questions</p>
+        <div class="flex flex-wrap gap-2">
+          <button *ngFor="let question of suggestedQuestions" (click)="askQuestion(question)"
+            class="text-left text-xs text-indigo-600 dark:text-indigo-400 font-bold bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 hover:bg-indigo-50/50 dark:hover:bg-slate-700 hover:border-indigo-300 dark:hover:border-indigo-500 px-3.5 py-2 rounded-xl transition duration-200 shadow-sm flex items-center gap-1.5">
+            <span>❓</span>
+            {{ question }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="p-4 md:p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md">
+        <div class="flex gap-3">
+          <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
+            placeholder="Ask DoseGuard Health Assistant..." [disabled]="isLoading"
+            class="flex-1 px-4 py-3 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-850 dark:text-slate-100 font-semibold text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 placeholder-slate-400 transition" />
+          
+          <button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()"
+            class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white font-bold p-3 px-5 rounded-xl transition flex items-center justify-center disabled:cursor-not-allowed shadow-md hover:shadow-lg">
+            <svg class="h-5 w-5 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-bottom-navigation></app-bottom-navigation>

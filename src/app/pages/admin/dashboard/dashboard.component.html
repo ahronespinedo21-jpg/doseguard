@@ -1,0 +1,658 @@
+<div class="bg-slate-50 dark:bg-slate-950 h-screen flex flex-col font-sans text-slate-800 dark:text-slate-200 overflow-hidden">
+  <!-- Top Header -->
+  <header class="bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/50 dark:border-slate-800/80 shadow-sm flex-shrink-0 z-20 sticky top-0 backdrop-blur-md">
+    <div class="px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-4">
+            <!-- Mobile Menu Button -->
+            <button (click)="toggleMenu()" class="md:hidden text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mr-2">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+
+            <div class="flex items-center gap-3 lg:gap-4">
+              <div class="bg-indigo-600 dark:bg-indigo-500 rounded-xl p-2 shadow-md">
+                <img src="/assets/images/doseguard-logo.png" alt="DoseGuard Logo" class="w-7 h-7 rounded-lg object-contain" />
+              </div>
+              <div>
+                <h1 class="text-base lg:text-xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-none">DoseGuard</h1>
+                <p class="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Admin Portal</p>
+              </div>
+            </div>
+          </div>
+          <!-- Search Bar -->
+          <div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-950 rounded-xl px-3.5 py-2 border border-slate-200/30 dark:border-slate-800 focus-within:border-indigo-500 focus-within:bg-white dark:focus-within:bg-slate-950 transition-all w-64 lg:w-80 ml-4 shadow-inner">
+            <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z" />
+            </svg>
+            <input type="text" placeholder="Search patients, prescriptions..." class="bg-transparent border-none outline-none text-xs text-slate-700 dark:text-slate-300 ml-2.5 w-full placeholder-slate-400 font-semibold">
+          </div>
+        </div>
+        
+        <button (click)="logout()" class="text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-455 hover:bg-rose-50 dark:hover:bg-rose-955/20 px-4 py-2.5 rounded-xl font-bold transition duration-200 flex items-center gap-2 border border-transparent hover:border-rose-100 dark:hover:border-rose-950/40 text-xs">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+          </svg>
+          <span class="hidden sm:inline">Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex relative flex-1 overflow-hidden h-full">
+    <!-- Mobile Menu Backdrop -->
+    <div *ngIf="menuOpen" (click)="menuOpen = false" class="md:hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 transition-opacity"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside [class.translate-x-0]="menuOpen" [class.-translate-x-full]="!menuOpen"
+      class="fixed md:static md:translate-x-0 left-0 top-0 z-40 w-64 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] bg-slate-950 text-slate-400 border-r border-slate-900 shadow-xl transition-transform duration-300 md:transition-none overflow-x-hidden flex flex-col">
+      <nav class="p-4 flex-1 overflow-y-auto space-y-1 mt-2">
+        <h2 class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-3.5 px-3">Main Menu</h2>
+        
+        <a routerLink="/admin" routerLinkActive="bg-indigo-600 text-white font-bold" [routerLinkActiveOptions]="{exact: true}" (click)="menuOpen = false"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a routerLink="/admin/users" routerLinkActive="bg-indigo-600 text-white font-bold" (click)="menuOpen = false"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A12.318 12.318 0 0110.3 20.25a12.318 12.318 0 01-6.3-1.015v-.22c0-1.113.285-2.16.786-3.07m1.267-3.133A5.978 5.978 0 0110.3 12.5c1.408 0 2.709.483 3.742 1.294M12.454 4.354a3.375 3.375 0 00-4.908 4.908 3.375 3.375 0 004.908-4.908zm7.596 2.045a3.375 3.375 0 11-4.909 4.91 3.375 3.375 0 014.909-4.91z" />
+          </svg>
+          <span>Patients Directory</span>
+        </a>
+
+        <a routerLink="/admin/medications" routerLinkActive="bg-indigo-600 text-white font-bold" (click)="menuOpen = false"
+          class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+          </svg>
+          <span>Medications</span>
+        </a>
+
+        <div class="border-t border-slate-900 my-4 pt-4">
+          <h2 class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-3.5 px-3">System</h2>
+          
+          <a routerLink="/admin/analytics" routerLinkActive="bg-indigo-600 text-white font-bold" (click)="menuOpen = false"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0V12m7.5 4.5V12M12 16.5V9.75M12 9.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.25 2.25a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-10.5-3a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+            </svg>
+            <span>Analytics Hub</span>
+          </a>
+
+          <a routerLink="/admin/alerts" routerLinkActive="bg-indigo-600 text-white font-bold" (click)="menuOpen = false"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+            <span>Alerts Log</span>
+          </a>
+
+          <a routerLink="/admin/settings" routerLinkActive="bg-indigo-600 text-white font-bold" (click)="menuOpen = false"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-slate-100 transition-all text-xs font-bold">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.158l1.15-.827M8.14 21.27l.707-1.03m7.74-11.27l.707-1.03M12 3v1.5m0 15V21m-3.077-8.457l-.513-1.41m5.13 14.095l-.513-1.41M17.785 5.106l-.827 1.15m-8.158 11.379l-.827 1.15m2.77-9.45l-1.03-.707m11.27 7.74l-1.03-.707" />
+            </svg>
+            <span>Portal Settings</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <ion-content class="flex-1 bg-transparent" style="--background: transparent;">
+      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+      <div class="p-6 lg:p-8">
+        <!-- Skeleton Header -->
+        <div *ngIf="isLoading" class="animate-pulse flex space-x-4 mb-8">
+          <div class="flex-1 space-y-4 py-1">
+            <div class="h-6 bg-slate-200 dark:bg-slate-800 rounded w-1/4"></div>
+            <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+          </div>
+        </div>
+
+        <!-- Page Title -->
+        <div *ngIf="!isLoading" class="mb-8 fade-in">
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Overview Dashboard</h2>
+          <p class="text-xs sm:text-sm font-semibold text-slate-400 dark:text-slate-500 mt-1">Real-time stats and metrics for active patients and smart pillboxes.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <!-- Total Users -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-16 h-16 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="flex items-center gap-4 mb-3">
+              <div class="bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 p-3 rounded-2xl">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A12.318 12.318 0 0110.3 20.25a12.318 12.318 0 01-6.3-1.015v-.22c0-1.113.285-2.16.786-3.07m1.267-3.133A5.978 5.978 0 0110.3 12.5c1.408 0 2.709.483 3.742 1.294M12.454 4.354a3.375 3.375 0 00-4.908 4.908 3.375 3.375 0 004.908-4.908zm7.596 2.045a3.375 3.375 0 11-4.909 4.91 3.375 3.375 0 014.909-4.91z" />
+                </svg>
+              </div>
+              <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Total Patients</p>
+            </div>
+            <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.totalUsers }}</p>
+          </div>
+
+          <!-- Total Medications -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 10.5A1.5 1.5 0 003 12v3.75a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5V12a1.5 1.5 0 00-1.5-1.5h-15z"/></svg>
+            </div>
+            <div class="flex items-center gap-4 mb-3">
+              <div class="bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 p-3 rounded-2xl">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                </svg>
+              </div>
+              <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Total Meds</p>
+            </div>
+            <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.totalMedications }}</p>
+          </div>
+
+          <!-- Active Medications -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-16 h-16 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="flex items-center gap-4 mb-3">
+              <div class="bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 p-3 rounded-2xl">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                </svg>
+              </div>
+              <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Active Regimens</p>
+            </div>
+            <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.activeMedications }}</p>
+          </div>
+
+          <!-- Users with Reminders -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-16 h-16 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+            </div>
+            <div class="flex items-center gap-4 mb-3">
+              <div class="bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 p-3 rounded-2xl">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+              </div>
+              <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Alerts Set</p>
+            </div>
+            <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.usersWithReminders }}</p>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mb-8">
+          <h3 class="text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 px-1">Quick Actions</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <button (click)="goToUsers()" class="group bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-5 text-left shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500 transition-all flex items-start gap-4">
+              <div class="bg-slate-55 dark:bg-slate-950 p-2.5 rounded-xl group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-slate-400 border border-slate-200/10 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.3 20.25a12.318 12.318 0 01-6.3-1.015z"></path></svg>
+              </div>
+              <div>
+                <p class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Register Patient</p>
+                <p class="text-xs text-slate-450 dark:text-slate-500 mt-1 leading-relaxed">Add a new patient user account to the system</p>
+              </div>
+            </button>
+
+            <button (click)="goToMedications()" class="group bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-5 text-left shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500 transition-all flex items-start gap-4">
+              <div class="bg-slate-50 dark:bg-slate-955 p-2.5 rounded-xl group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-slate-400 border border-slate-200/10 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.03 0 1.9.693 2.166 1.638m-7.377 0A48.536 48.536 0 0112 3c1.29 0 2.56.05 3.82.148m0 0l.004-.001m-7.377 0a48.536 48.536 0 01-3.82-.148h-.006a2.25 2.25 0 00-1.976 2.192v12.518A2.25 2.25 0 005.25 20.25h3.75"></path></svg>
+              </div>
+              <div>
+                <p class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Prescription Log</p>
+                <p class="text-xs text-slate-450 dark:text-slate-500 mt-1 leading-relaxed">Add, modify, or delete medication schedules</p>
+              </div>
+            </button>
+
+            <button routerLink="/admin/settings" class="group bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-5 text-left shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-500 transition-all flex items-start gap-4">
+              <div class="bg-slate-55 dark:bg-slate-950 p-2.5 rounded-xl group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-slate-400 border border-slate-200/10 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </div>
+              <div>
+                <p class="font-bold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Configuration</p>
+                <p class="text-xs text-slate-450 dark:text-slate-500 mt-1 leading-relaxed">Adjust system defaults, rules, and global limits</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Data Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+          <!-- Recent Users -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-premium border border-slate-200/50 dark:border-slate-800/80 overflow-hidden flex flex-col h-[400px]">
+            <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
+              <h3 class="text-[16px] font-black text-slate-800 dark:text-slate-100 tracking-tight">Recent Patients</h3>
+              <button (click)="goToUsers()" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-850 dark:hover:text-indigo-300 text-xs font-bold flex items-center gap-1">
+                View Directory <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+              </button>
+            </div>
+            
+            <div class="overflow-y-auto flex-1 bg-white dark:bg-slate-900">
+              <div *ngIf="isLoading" class="p-6 space-y-4">
+                <div *ngFor="let i of [1,2,3]" class="animate-pulse flex items-center gap-4">
+                  <div class="rounded-full bg-slate-200 dark:bg-slate-800 h-10 w-10"></div>
+                  <div class="flex-1 space-y-2">
+                    <div class="h-3 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded w-1/4"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!isLoading && recentUsers.length === 0" class="flex flex-col items-center justify-center h-full text-slate-400 p-6">
+                <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">No patient accounts found</p>
+              </div>
+
+              <ul *ngIf="!isLoading && recentUsers.length > 0" class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                <li *ngFor="let user of recentUsers" class="px-6 py-4 hover:bg-slate-50/50 dark:hover:bg-slate-950/45 transition-colors flex items-center justify-between gap-4">
+                  <div class="flex items-center gap-4 min-w-0">
+                    <div class="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 h-10 w-10 rounded-2xl flex items-center justify-center font-black text-sm flex-shrink-0 border border-indigo-100/10">
+                      {{ (user.name || (user.firstName + ' ' + user.lastName)).trim().charAt(0).toUpperCase() || 'U' }}
+                    </div>
+                    <div class="min-w-0">
+                      <p class="font-bold text-slate-800 dark:text-slate-100 text-sm truncate">{{ user.name || (user.firstName + ' ' + user.lastName) }}</p>
+                      <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 truncate mt-0.5">{{ user.email }}</p>
+                    </div>
+                  </div>
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border border-emerald-100/10">
+                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                    Active
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Recent Medications -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-premium border border-slate-200/50 dark:border-slate-800/80 overflow-hidden flex flex-col h-[400px]">
+            <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
+              <h3 class="text-[16px] font-black text-slate-800 dark:text-slate-100 tracking-tight">Recent Prescriptions</h3>
+              <button (click)="goToMedications()" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-850 dark:hover:text-indigo-300 text-xs font-bold flex items-center gap-1">
+                View Log <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+              </button>
+            </div>
+            
+            <div class="overflow-y-auto flex-1 bg-white dark:bg-slate-900">
+              <div *ngIf="isLoading" class="p-6 space-y-4">
+                <div *ngFor="let i of [1,2,3]" class="animate-pulse flex items-center gap-4">
+                  <div class="rounded-2xl bg-slate-200 dark:bg-slate-800 h-10 w-10"></div>
+                  <div class="flex-1 space-y-2">
+                    <div class="h-3 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded w-1/4"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!isLoading && recentMedications.length === 0" class="flex flex-col items-center justify-center h-full text-slate-400 p-6">
+                <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">No prescriptions found</p>
+              </div>
+
+              <ul *ngIf="!isLoading && recentMedications.length > 0" class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                <li *ngFor="let med of recentMedications" class="px-6 py-4 hover:bg-slate-50/50 dark:hover:bg-slate-950/45 transition-colors flex items-center justify-between gap-4">
+                  <div class="flex items-center gap-4 min-w-0">
+                    <div class="bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 h-10 w-10 rounded-2xl flex items-center justify-center flex-shrink-0 border border-blue-100/10">
+                      💊
+                    </div>
+                    <div class="min-w-0">
+                      <p class="font-bold text-slate-800 dark:text-slate-100 text-sm truncate">{{ med.name }}</p>
+                      <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                        <span class="text-slate-600 dark:text-slate-350">{{ med.patientName }}</span> &middot; {{ med.dosage }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <span class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-950 px-2 py-1 rounded-md border border-slate-100 dark:border-slate-800/50 uppercase tracking-wider">{{ med.frequency }}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comprehensive Patient Directory -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-premium border border-slate-200/50 dark:border-slate-800/80 overflow-hidden mb-8">
+          <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
+            <h3 class="text-[16px] font-black text-slate-800 dark:text-slate-100 tracking-tight">Comprehensive Patient Directory</h3>
+            <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-1">View registered patient accounts, clinical summaries, and monitoring statuses.</p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+              <thead>
+                <tr class="bg-slate-50/50 dark:bg-slate-950/50 border-y border-slate-200/40 dark:border-slate-800/50">
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Patient Details</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Contact</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Join Date</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="isLoading" class="divide-y divide-slate-100 dark:divide-slate-800/40">
+                <tr *ngFor="let i of [1,2,3]">
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-3/4"></div></td>
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-1/2"></div></td>
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-1/2"></div></td>
+                  <td class="px-6 py-4 text-right"><div class="h-6 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-16 ml-auto"></div></td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="!isLoading" class="divide-y divide-slate-100 dark:divide-slate-800/40 bg-white dark:bg-slate-900">
+                <tr *ngFor="let user of allUsers" class="hover:bg-slate-55/40 dark:hover:bg-slate-950/20 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="font-bold text-slate-800 dark:text-slate-100 text-sm">{{ user.name || (user.firstName + ' ' + user.lastName) }}</div>
+                    <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-0.5">{{ user.email }}</div>
+                  </td>
+                  <td class="px-6 py-4 text-xs font-semibold text-slate-550 dark:text-slate-400">{{ user.phone || '—' }}</td>
+                  <td class="px-6 py-4 text-xs font-semibold text-slate-550 dark:text-slate-400">{{ user.createdAt || '—' }}</td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button (click)="openReportModal(user)"
+                        class="px-3 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 hover:text-indigo-700 transition duration-200 text-xs font-bold border border-indigo-100/10 flex items-center gap-1.5 shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                        Report
+                      </button>
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border border-emerald-100/10 flex-shrink-0">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Active
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="allUsers.length === 0">
+                  <td colspan="4" class="px-6 py-8 text-center text-slate-400 dark:text-slate-500 text-xs font-semibold">No patient records found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Medication Records Table -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-premium border border-slate-200/50 dark:border-slate-800/80 overflow-hidden mb-8">
+          <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
+            <h3 class="text-[16px] font-black text-slate-800 dark:text-slate-100 tracking-tight">Active Medication Regimens</h3>
+            <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-1">Complete log of all registered medication schedules and frequencies.</p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+              <thead>
+                <tr class="bg-slate-50/50 dark:bg-slate-950/50 border-y border-slate-200/40 dark:border-slate-800/50">
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Medication</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Patient Details</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Dosage</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider">Schedule</th>
+                  <th class="px-6 py-4 text-[10px] font-extrabold text-slate-450 dark:text-slate-500 uppercase tracking-wider text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="isLoading" class="divide-y divide-slate-100 dark:divide-slate-800/40">
+                <tr *ngFor="let i of [1,2,3]">
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-3/4"></div></td>
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-1/2"></div></td>
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-1/3"></div></td>
+                  <td class="px-6 py-4"><div class="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-2/3"></div></td>
+                  <td class="px-6 py-4 text-right"><div class="h-6 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-16 ml-auto"></div></td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="!isLoading" class="divide-y divide-slate-100 dark:divide-slate-800/40 bg-white dark:bg-slate-900">
+                <tr *ngFor="let med of allMedications" class="hover:bg-slate-55/40 dark:hover:bg-slate-950/20 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="font-bold text-slate-800 dark:text-slate-100 text-sm">{{ med.name }}</div>
+                  </td>
+                  <td class="px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <div>{{ med.patientName }}</div>
+                    <div class="text-[11px] text-slate-400 dark:text-slate-500 font-semibold mt-0.5">{{ med.patientEmail }}</div>
+                  </td>
+                  <td class="px-6 py-4 text-xs font-semibold text-slate-550 dark:text-slate-400">{{ med.dosage }}</td>
+                  <td class="px-6 py-4">
+                    <div class="text-xs font-bold text-slate-700 dark:text-slate-300">{{ med.frequency }}</div>
+                    <div class="text-[11px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">{{ med.time }}</div>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <span class="inline-flex items-center px-2.5 py-1.5 rounded-md text-[10px] font-bold border"
+                      [ngClass]="med.status === 'Active' ? 'bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-400 border-blue-100/20' : 'bg-slate-50 dark:bg-slate-950/20 text-slate-500 dark:text-slate-450 border-slate-200/20'">
+                      {{ med.status }}
+                    </span>
+                  </td>
+                </tr>
+                <tr *ngIf="allMedications.length === 0">
+                  <td colspan="5" class="px-6 py-8 text-center text-slate-400 dark:text-slate-500 text-xs font-semibold">No medication logs found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </div>
+
+  <!-- Medication Monitoring Report Modal -->
+  <div *ngIf="showReportModal" class="fixed inset-0 z-[100] flex justify-center items-start overflow-y-auto bg-slate-950/60 backdrop-blur-md p-3 md:p-6 print:bg-white print:p-0">
+    <div class="relative w-full max-w-3xl m-auto flex flex-col font-sans print:m-0 print:max-w-none">
+      
+      <!-- Floating Action Bar -->
+      <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 py-3 rounded-2xl mb-4 flex justify-between items-center shadow-xl print:hidden border border-slate-200/50 dark:border-slate-800 sticky top-2 z-50">
+        <div class="flex items-center gap-3">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white shadow-sm">
+            <svg class="w-5 h-5 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-slate-800 dark:text-slate-100">Medication Adherence Report</h3>
+            <p class="text-[9px] text-indigo-550 dark:text-indigo-400 font-extrabold uppercase tracking-widest">DoseGuard Health Intelligence</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button (click)="downloadReportPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md transition-all">
+            <svg class="w-4 h-4 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+            Export PDF
+          </button>
+          <button (click)="printReport()" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-350 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-slate-200 dark:border-slate-700 transition-all">
+            <svg class="w-4 h-4 stroke-slate-700 dark:stroke-slate-300 fill-none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0a2.25 2.25 0 01-2.25 2.25H8.59A2.25 2.25 0 016.34 18m11.318-6.318A8.25 8.25 0 005.07 12.75m13.86 0c.096.443.141.916.141 1.4 0 2.28-.9 4.412-2.38 5.966m-10.152-7.366A8.25 8.25 0 001.934 12c0 .484.045.957.141 1.4 0 2.28.9 4.412 2.38 5.966m13.7-10.466l-1.41-1.41m-10.89 10.89L3.5 19.5M3.5 19.5l.41-1.41m0 0a8.25 8.25 0 0113.77-5.911l1.41-1.41M17.66 18l.41 1.5M12 12.75A1.5 1.5 0 1110.5 11.25a1.5 1.5 0 011.5 1.5z"/></svg>
+            Print
+          </button>
+          <button (click)="closeReportModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-750 transition-colors">
+            <svg class="w-4 h-4 stroke-slate-500" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Report Document Card -->
+      <div id="dashboard-report-area" class="bg-white dark:bg-slate-900 w-full mx-auto rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden print:shadow-none print:border-none print:rounded-none">
+        <div class="h-2 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600"></div>
+
+        <div class="p-6 md:p-8">
+          <!-- INSTITUTION HEADER -->
+          <div class="flex items-center justify-between gap-4 mb-6 pb-4 border-b-2 border-slate-100 dark:border-slate-800/80">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.053.197-7.5.582V21M3 21h18" /></svg>
+            </div>
+            <div class="text-center flex-1">
+              <p class="text-[8px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Republic of the Philippines</p>
+              <p class="text-sm font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight leading-tight mt-0.5">Surigao del Norte State University</p>
+              <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">Del Carmen Campus &middot; Del Carmen, Surigao del Norte 8418</p>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100/10 flex items-center justify-center flex-shrink-0">
+              <img src="/assets/images/doseguard-logo.png" alt="DoseGuard" class="w-7 h-7 object-contain" />
+            </div>
+          </div>
+
+          <!-- REPORT TITLE -->
+          <div class="text-center mb-6">
+            <h1 class="text-lg md:text-xl font-black tracking-tight text-slate-800 dark:text-slate-100">
+              <span class="text-indigo-600 dark:text-indigo-450">DoseGuard</span> Medication Monitoring Report
+            </h1>
+            <div class="flex flex-wrap items-center justify-center gap-3 mt-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <span>Date: <strong class="text-slate-700 dark:text-slate-350">{{ reportDate | date:'MMMM d, yyyy' }}</strong></span>
+              <span class="text-slate-300">|</span>
+              <span>Generated: <strong class="text-slate-700 dark:text-slate-350">{{ reportGeneratedAt | date:'MMM d, yyyy, h:mm a' }}</strong></span>
+            </div>
+          </div>
+
+          <!-- STATS OVERVIEW -->
+          <div class="grid grid-cols-5 gap-3 mb-6">
+            <div class="bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100/20 rounded-2xl p-3 text-center">
+              <p class="text-lg font-black text-indigo-700 dark:text-indigo-400">{{ reportMedications.length }}</p>
+              <p class="text-[8px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Total Meds</p>
+            </div>
+            <div class="bg-sky-50/50 dark:bg-sky-950/20 border border-sky-100/20 rounded-2xl p-3 text-center">
+              <p class="text-lg font-black text-sky-700 dark:text-sky-400">{{ totalReminders }}</p>
+              <p class="text-[8px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Reminders</p>
+            </div>
+            <div class="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/20 rounded-2xl p-3 text-center">
+              <p class="text-lg font-black text-emerald-700 dark:text-emerald-400">{{ totalTaken }}</p>
+              <p class="text-[8px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Taken</p>
+            </div>
+            <div class="bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/20 rounded-2xl p-3 text-center">
+              <p class="text-lg font-black text-rose-700 dark:text-rose-400">{{ totalMissed }}</p>
+              <p class="text-[8px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">Missed</p>
+            </div>
+            <!-- Circular Adherence Progress -->
+            <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-3 flex flex-col items-center justify-center">
+              <svg width="48" height="48" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#E2E8F0" stroke-width="10"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#6366F1" stroke-width="10" stroke-linecap="round"
+                  [attr.stroke-dasharray]="adherenceCircumference"
+                  [attr.stroke-dashoffset]="adherenceDashOffset"
+                  transform="rotate(-90 40 40)"/>
+                <text x="40" y="44" text-anchor="middle" font-size="14" font-weight="900" fill="#6366F1">{{ adherenceRate }}%</text>
+              </svg>
+              <p class="text-[7px] font-bold uppercase tracking-widest mt-1" [ngClass]="adherenceRate>=75?'text-emerald-600':'text-amber-600'">{{ adherenceLabel }}</p>
+            </div>
+          </div>
+
+          <!-- INFO CARDS -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-4">
+              <h4 class="text-[9px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">Patient Account</h4>
+              <div class="space-y-2">
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Name</p><p class="text-xs font-bold text-slate-800 dark:text-slate-200">{{ selectedReportUser?.firstName }} {{ selectedReportUser?.lastName }}</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Email</p><p class="text-xs font-semibold text-slate-600 dark:text-slate-400 break-all">{{ selectedReportUser?.email }}</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Contact</p><p class="text-xs font-semibold text-slate-600 dark:text-slate-400">{{ selectedReportUser?.phone || '—' }}</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Report UUID</p><p class="text-xs font-bold text-slate-850 dark:text-slate-200">{{ reportId }}</p></div>
+              </div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 rounded-2xl p-4">
+              <h4 class="text-[9px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">System Report Details</h4>
+              <div class="space-y-2">
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Generated By</p><p class="text-xs font-semibold text-slate-600 dark:text-slate-400">DoseGuard Clinical Engine</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Adherence Status</p><p class="text-xs font-bold text-indigo-600 dark:text-indigo-400">{{ adherenceLabel }}</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Sync Integrity</p><p class="text-xs font-semibold text-slate-600 dark:text-slate-400">Database Sync Verified</p></div>
+                <div><p class="text-[8px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Verification Standard</p><p class="text-xs font-semibold text-slate-600 dark:text-slate-400">SNSU Del Carmen Healthcare</p></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MEDICATION SUMMARY TABLE -->
+          <div class="mb-6">
+            <h3 class="text-xs font-extrabold text-slate-850 dark:text-slate-200 uppercase tracking-widest mb-2.5 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Medication Summary
+            </h3>
+            <div *ngIf="isReportLoading" class="py-6 text-center">
+              <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600 mx-auto"></div>
+            </div>
+            <div *ngIf="!isReportLoading" class="rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800 shadow-sm">
+              <table class="w-full text-left border-collapse text-xs whitespace-nowrap bg-white dark:bg-slate-900">
+                <thead>
+                  <tr class="bg-slate-950 text-slate-200 border-b border-slate-800">
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">#</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Medication Name</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Dosage</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Frequency</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Schedule</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-300">
+                  <tr *ngIf="reportMedications.length === 0">
+                    <td colspan="6" class="px-3 py-4 text-center text-slate-400 dark:text-slate-500 text-[10px] font-semibold">No medications found.</td>
+                  </tr>
+                  <tr *ngFor="let med of reportMedications; let i = index" class="hover:bg-slate-50/50 dark:hover:bg-slate-950/20">
+                    <td class="px-3 py-2.5 text-slate-400 font-bold">{{ i+1 }}</td>
+                    <td class="px-3 py-2.5 font-bold text-slate-800 dark:text-slate-100">{{ med.name }}</td>
+                    <td class="px-3 py-2.5">{{ med.dosage }} {{ med.dosageType && med.dosageType !== 'specific' ? med.dosageType : 'Unit(s)' }}</td>
+                    <td class="px-3 py-2.5 capitalize">{{ med.frequency }}</td>
+                    <td class="px-3 py-2.5">{{ med.formattedSchedule }}</td>
+                    <td class="px-3 py-2.5">
+                      <span class="px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-widest bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border border-emerald-100/10">
+                        {{ med.isActive ? 'ACTIVE' : 'INACTIVE' }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ACTIVITY HISTORY TABLE -->
+          <div class="mb-6">
+            <h3 class="text-xs font-extrabold text-slate-850 dark:text-slate-200 uppercase tracking-widest mb-2.5 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Activity History
+            </h3>
+            <div class="rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800 shadow-sm">
+              <table class="w-full text-left border-collapse text-xs whitespace-nowrap bg-white dark:bg-slate-900">
+                <thead>
+                  <tr class="bg-slate-950 text-slate-200 border-b border-slate-800">
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Date</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Time</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Medication</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Action</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Status</th>
+                    <th class="px-3 py-2.5 text-[9px] font-bold uppercase tracking-wider">Notes</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-300">
+                  <tr *ngIf="reportLogs.length === 0">
+                    <td colspan="6" class="px-3 py-4 text-center text-slate-400 dark:text-slate-500 text-[10px] font-semibold">No activity logs found.</td>
+                  </tr>
+                  <tr *ngFor="let log of reportLogs; let i = index" class="hover:bg-slate-50/50 dark:hover:bg-slate-950/20">
+                    <td class="px-3 py-2.5 text-slate-500">{{ log.scheduledAt || log.createdAt | date:'MMM d, yyyy' }}</td>
+                    <td class="px-3 py-2.5 text-slate-500">{{ log.time || log.scheduledTime || '—' }}</td>
+                    <td class="px-3 py-2.5 font-bold text-slate-850 dark:text-slate-100">{{ log.medicationName }}</td>
+                    <td class="px-3 py-2.5 text-slate-500 capitalize">{{ log.action || log.status }}</td>
+                    <td class="px-3 py-2.5">
+                      <span class="px-2.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5" [ngClass]="getLogStatusClass(log.status)">
+                        <span class="w-1.5 h-1.5 rounded-full" [ngClass]="getLogStatusDot(log.status)"></span>
+                        {{ log.status || 'Pending' }}
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-slate-400 dark:text-slate-500 text-[10px]">{{ log.notes || 'On schedule' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SIGNATURE FOOTER -->
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+              <div class="w-24 h-px bg-slate-300 dark:bg-slate-700 mb-1.5"></div>
+              <p class="text-[8px] font-black text-slate-750 dark:text-slate-400 uppercase tracking-widest">Medical Officer Signature</p>
+              <p class="text-[7px] text-slate-400 dark:text-slate-500 font-semibold uppercase mt-0.5">DoseGuard Clinical Validation</p>
+            </div>
+            <div>
+              <div class="inline-flex items-center gap-3 bg-indigo-600 text-white px-4 py-2.5 rounded-2xl shadow-md">
+                <div>
+                  <p class="text-[7px] font-bold text-indigo-200 uppercase tracking-widest">Adherence Rate</p>
+                  <p class="text-base font-black tracking-tighter">{{ adherenceRate }}%</p>
+                </div>
+                <div class="w-px h-8 bg-indigo-500"></div>
+                <div>
+                  <p class="text-[7px] font-bold text-indigo-200 uppercase tracking-widest">Status</p>
+                  <p class="text-xs font-black">{{ adherenceLabel }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

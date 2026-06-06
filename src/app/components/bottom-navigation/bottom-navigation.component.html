@@ -1,0 +1,49 @@
+<div class="fixed bottom-0 left-0 w-full z-50 px-4 pb-1 pt-2">
+  <div class="glass-effect rounded-[28px] px-2 mx-auto max-w-[500px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-slate-100 dark:border-slate-800/40">
+    <div class="flex justify-around items-center h-[72px] relative">
+      
+      <a
+        *ngFor="let item of navItems"
+        [routerLink]="item.route"
+        [class.active]="isActive(item.route)"
+        class="nav-item flex flex-col items-center justify-center w-1/4 h-full cursor-pointer tap-effect group"
+        style="text-decoration: none;"
+      >
+        <!-- Active Indicator Pill Background -->
+        <div class="absolute inset-0 m-auto h-[48px] w-[64px] rounded-2xl transition-all duration-300 ease-out pointer-events-none active-pill"
+             [ngClass]="isActive(item.route) ? 'opacity-100 scale-100' : 'opacity-0 scale-50'">
+        </div>
+
+        <!-- Icon Area -->
+        <div class="relative flex items-center justify-center mb-1 z-10 transition-transform duration-300 ease-out icon-area"
+             [ngClass]="isActive(item.route) ? '-translate-y-0.5' : 'group-hover:-translate-y-1'">
+          <div 
+            class="transition-colors duration-300 flex items-center justify-center nav-icon-wrapper"
+            [ngClass]="{
+              'text-primary-active': isActive(item.route),
+              'text-slate-400': !isActive(item.route)
+            }"
+            [innerHTML]="item.icon"
+          ></div>
+          <!-- Red notification badge for upcoming reminders -->
+          <span *ngIf="item.route === '/upcoming-reminders' && pendingCount > 0"
+                class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-[3px] shadow-sm">
+            {{ pendingCount }}
+          </span>
+        </div>
+
+        <!-- Label Area -->
+        <span 
+          class="nav-label text-[10px] font-semibold tracking-wide transition-all duration-300 z-10"
+          [ngClass]="{
+            'text-primary-active opacity-100': isActive(item.route),
+            'text-slate-400 opacity-0 translate-y-2': !isActive(item.route)
+          }"
+        >{{ item.label }}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Spacer to prevent content overlap -->
+<div class="pb-24"></div>

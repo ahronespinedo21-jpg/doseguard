@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if request is from the admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'admin@doseguard.app';
+    }
+
+    // Enforce data isolation: users can only read and write their own documents
+    match /users/{userId} {
+      allow read, write: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+      
+      match /medications/{medicationId} {
+        allow read, write: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+      }
+      
+      match /reminderLogs/{logId} {
+        allow read, write: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+      }
+    }
+
+    // Audit logs for admin tracking
+    match /auditLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

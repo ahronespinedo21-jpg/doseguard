@@ -1,0 +1,94 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "doseguard": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/doseguard",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/manifest.webmanifest",
+              "src/assets",
+              "src/.htaccess"
+            ],
+            "styles": [
+              "src/styles/index.css"
+            ],
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "html2canvas",
+              "canvg",
+              "rgbcolor",
+              "raf"
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "50kb",
+                  "maximumError": "100kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "doseguard:build",
+            "port": 4200
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "doseguard:build:production"
+            },
+            "development": {
+              "buildTarget": "doseguard:build:development"
+            },
+            "ionic": {
+              "buildTarget": "doseguard:build:development",
+              "port": 8100
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

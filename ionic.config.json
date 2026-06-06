@@ -1,0 +1,15 @@
+{
+  "name": "Doseguard Medication Reminder",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "apps": [
+    {
+      "name": "doseguard",
+      "integrations": {
+        "capacitor": {}
+      }
+    }
+  ]
+}

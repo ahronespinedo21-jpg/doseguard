@@ -1,0 +1,394 @@
+<ion-content class="bg-background" style="--background: transparent;">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="min-h-screen w-full overflow-x-hidden bg-background">
+  <div class="sticky top-0 z-40 glass-effect border-b-0 pb-2 pt-4">
+    <div class="mx-auto px-6 max-w-[1300px] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-[14px] p-2.5 shadow-md border border-indigo-400/20">
+          <svg class="h-6 w-6 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-[22px] font-extrabold leading-tight tracking-tight text-slate-800 dark:text-slate-100">Dashboard</h1>
+          <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500">DoseGuard Health</p>
+        </div>
+      </div>
+      <div class="rounded-full h-10 w-10 flex items-center justify-center shadow-inner border border-slate-200/50 dark:border-slate-800 bg-slate-100 dark:bg-slate-800">
+        <span class="font-bold text-xs text-indigo-500 dark:text-indigo-400">DG</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="mx-auto px-6 py-6 pb-6 max-w-[1300px] space-y-6">
+    <!-- Alert Banners -->
+    <div *ngIf="successMessage" class="rounded-2xl p-4 bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-3 animate-fade-in shadow-sm">
+      <svg class="h-5 w-5 stroke-emerald-600 fill-none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-sm font-semibold">{{ successMessage }}</span>
+    </div>
+    
+    <div *ngIf="errorMessage" class="rounded-2xl p-4 bg-rose-100 text-rose-800 border border-rose-200 flex items-center gap-3 animate-fade-in shadow-sm">
+      <svg class="h-5 w-5 stroke-rose-600 fill-none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <span class="text-sm font-semibold">{{ errorMessage }}</span>
+    </div>
+    <!-- Skeleton Loading State -->
+    <div *ngIf="isLoading" class="animate-pulse space-y-6">
+      <!-- Adherence Rate Skeleton -->
+      <div class="rounded-[28px] p-6 bg-slate-200/50 h-28 w-full"></div>
+      
+      <!-- Stats Grid Skeleton -->
+      <div class="grid grid-cols-3 gap-3 w-full">
+        <div class="rounded-2xl bg-slate-200/50 h-[110px] w-full" *ngFor="let i of [1,2,3]"></div>
+      </div>
+
+      <!-- Medications Skeleton -->
+      <div class="premium-card p-6 w-full space-y-3">
+        <div class="h-6 bg-slate-200/50 rounded w-1/4 mb-4"></div>
+        <div class="flex justify-between items-center bg-slate-100/50 rounded-2xl p-4 h-20" *ngFor="let i of [1,2]"></div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="space-y-6 w-full">
+      <!-- Adherence Rate Card -->
+      <div class="w-full">
+        <div class="rounded-[28px] p-6 w-full relative overflow-hidden transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_20px_48px_rgba(99,102,241,0.25)] cursor-pointer"
+             style="background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%); box-shadow: 0 16px 36px -4px rgba(99, 102, 241, 0.35);">
+          <!-- Decorative glass circles -->
+          <div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute left-1/3 -bottom-16 w-32 h-32 bg-indigo-300/20 rounded-full blur-xl pointer-events-none"></div>
+          
+          <div class="flex items-center justify-between gap-6 relative z-10">
+            <!-- Left: Circular Progress -->
+            <div class="flex-shrink-0 relative w-[80px] h-[80px]">
+              <svg class="transform -rotate-90 w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)]" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="41" stroke="rgba(255,255,255,0.18)" stroke-width="9" fill="none"/>
+                <circle cx="50" cy="50" r="41" stroke="#ffffff" stroke-width="9" fill="none"
+                        [attr.stroke-dasharray]="257.6"
+                        [attr.stroke-dashoffset]="257.6 - (257.6 * adherenceStats.adherenceRate / 100)"
+                        stroke-linecap="round"
+                        class="transition-all duration-1000 ease-out"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-lg font-black text-white tracking-tighter">{{ adherenceStats.adherenceRate | number:'1.0-0' }}%</span>
+                <span class="text-[8px] uppercase font-bold text-white/75 tracking-wider -mt-0.5">Rate</span>
+              </div>
+            </div>
+
+            <!-- Center: Text Content -->
+            <div class="flex-1">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider text-indigo-100 bg-white/10 backdrop-blur-md mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                ADHERENCE TRACKER
+              </span>
+              <h3 class="text-xl font-extrabold text-white mb-1 tracking-tight">
+                <span *ngIf="adherenceStats.adherenceRate === 100">Perfect Day! 🎉</span>
+                <span *ngIf="adherenceStats.adherenceRate > 0 && adherenceStats.adherenceRate < 100">Keep going! 💪</span>
+                <span *ngIf="adherenceStats.adherenceRate === 0">Let's start! 🚀</span>
+              </h3>
+              <p class="text-[13px] text-indigo-100 mb-3 font-medium">
+                <span *ngIf="adherenceStats.taken === 0">You haven't taken any doses yet today.</span>
+                <span *ngIf="adherenceStats.taken > 0">You've taken {{ adherenceStats.taken }} dose(s) today.</span>
+              </p>
+              <div class="w-full rounded-full h-2.5 overflow-hidden bg-white/20">
+                <div class="h-full rounded-full transition-all duration-1000 ease-out bg-white relative overflow-hidden"
+                     [style.width.%]="adherenceStats.adherenceRate > 100 ? 100 : adherenceStats.adherenceRate">
+                   <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/45 to-transparent w-[200%] animate-[shimmer_2s_infinite]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-3 gap-3.5 w-full">
+        <!-- Doses Taken -->
+        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#10B981]">
+          <div class="absolute -right-6 -bottom-6 bg-[#10B981]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
+          <div class="flex justify-between items-start z-10">
+            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Taken</p>
+            <div class="bg-emerald-50 dark:bg-emerald-950/40 rounded-full p-2 text-emerald-500">
+              <svg class="h-4.5 w-4.5 stroke-emerald-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="z-10">
+            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ takenCount }}</p>
+            <p class="text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 mt-2">Doses Complete</p>
+          </div>
+        </div>
+
+        <!-- Pending Doses -->
+        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#F59E0B]">
+          <div class="absolute -right-6 -bottom-6 bg-[#F59E0B]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
+          <div class="flex justify-between items-start z-10">
+            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
+            <div class="bg-amber-50 dark:bg-amber-950/40 rounded-full p-2 text-amber-500">
+              <svg class="h-4.5 w-4.5 stroke-amber-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="z-10">
+            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ pendingCount }}</p>
+            <p class="text-[9px] font-semibold text-amber-600 dark:text-amber-400 mt-2">Awaiting Action</p>
+          </div>
+        </div>
+
+        <!-- Missed Doses -->
+        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#EF4444]">
+          <div class="absolute -right-6 -bottom-6 bg-[#EF4444]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
+          <div class="flex justify-between items-start z-10">
+            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Missed</p>
+            <div class="bg-rose-50 dark:bg-rose-950/40 rounded-full p-2 text-rose-500">
+              <svg class="h-4.5 w-4.5 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="z-10">
+            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ missedCount }}</p>
+            <p class="text-[9px] font-semibold text-rose-600 dark:text-rose-400 mt-2">Doses Overdue</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Alert Grid -->
+      <div class="grid grid-cols-2 gap-3.5 w-full">
+        <!-- Critical Stock -->
+        <div (click)="goToLowStock()" 
+             class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[150px] relative overflow-hidden group border-l-[4px] border-l-[#EF4444] cursor-pointer transition-transform duration-300 hover:scale-[1.02]">
+          <div class="absolute -right-6 -bottom-6 bg-[#EF4444]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
+          <div class="flex justify-between items-start z-10">
+            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Critical Stock</p>
+            <div class="bg-rose-50 dark:bg-rose-950/40 rounded-full p-2 text-rose-500 flex items-center justify-center animate-pulse">
+              <svg class="h-4 w-4 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+          </div>
+          <div class="z-10">
+            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ criticalCount }}</p>
+            <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400 mt-2">Refill Needed Immediately</p>
+          </div>
+        </div>
+
+        <!-- Running Low -->
+        <div (click)="goToLowStock()" 
+             class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[150px] relative overflow-hidden group border-l-[4px] border-l-[#F59E0B] cursor-pointer transition-transform duration-300 hover:scale-[1.02]">
+          <div class="absolute -right-6 -bottom-6 bg-[#F59E0B]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
+          <div class="flex justify-between items-start z-10">
+            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Running Low</p>
+            <div class="bg-amber-50 dark:bg-amber-950/40 rounded-full p-2 text-amber-500 flex items-center justify-center">
+              <svg class="h-4 w-4 stroke-amber-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+          </div>
+          <div class="z-10">
+            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ runningLowCount }}</p>
+            <p class="text-[10px] font-semibold text-amber-600 dark:text-amber-400 mt-2">Reorder Recommended</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="premium-card p-6 w-full" *ngIf="recentActivity.length > 0">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Recent Activity
+          </h3>
+        </div>
+        <div class="timeline-wrapper space-y-4">
+          <div *ngFor="let med of recentActivity" class="timeline-badge-wrapper flex items-center justify-between relative pl-1">
+            <!-- Connecting Dot Indicator -->
+            <div class="timeline-dot-indicator" [ngClass]="{
+              'bg-emerald-500': med?.status === 'taken',
+              'bg-rose-500': med?.status === 'missed',
+              'bg-amber-500': med?.status === 'snoozed',
+              'bg-slate-500': med?.status === 'skipped',
+              'bg-blue-500': med?.status === 'pending'
+            }"></div>
+            
+            <div class="flex flex-col gap-0.5">
+              <p class="text-sm font-bold text-slate-800 dark:text-slate-200">{{ med?.name }}</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Scheduled for {{ med?.reminderTime }}
+              </p>
+            </div>
+            
+            <span class="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm border border-solid" [ngClass]="getStatusClass(med?.status || 'pending')">
+              {{ med?.status }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your Medications Section -->
+      <div class="premium-card p-6 w-full">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <svg class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.16l1.15-.827M8.14 21.27l.707-1.03m7.45-.843l.707-1.03M12 3v1.5m0 15V21m-6.077-2.73l.512-1.409m11.13.512l.512-1.409" />
+            </svg>
+            Your Medications
+          </h3>
+          <button (click)="addMedication()" class="flex items-center gap-1.5 px-4.5 py-2 rounded-full text-xs font-bold text-white transition-all duration-300 tap-effect shadow-[0_4px_12px_rgba(99,102,241,0.2)] hover:shadow-[0_6px_16px_rgba(99,102,241,0.3)]" 
+                  style="background: linear-gradient(135deg, #6366F1, #4F46E5);">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+            Add New
+          </button>
+        </div>
+        <div *ngIf="medications$ | async as medications" class="space-y-3.5">
+          <div *ngFor="let med of medications" class="medication-card group rounded-2xl p-4 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-800/40 border border-slate-100/60 dark:border-slate-800/60 bg-white dark:bg-slate-900/10">
+            <div class="medication-info flex items-center gap-4 min-w-0">
+              <div class="medication-icon w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center flex-shrink-0 text-indigo-500 font-semibold text-lg shadow-sm border border-indigo-100/30">
+                💊
+              </div>
+              <div class="medication-details-box min-w-0">
+                <h4 class="medication-title font-extrabold text-[15px] text-slate-800 dark:text-slate-100">{{ med?.name }}</h4>
+                <p class="medication-subtitle text-[12px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{{ med?.dosage }} • {{ med?.category }}</p>
+                <!-- Time Chips - show ALL scheduled times -->
+                <div class="medication-schedule flex flex-wrap gap-1.5 mt-2">
+                  <span *ngFor="let time of (med?.schedule?.length ? med.schedule : (med?.reminderTime ? [med.reminderTime] : []))"
+                        class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-solid transition-colors duration-300"
+                        [ngClass]="{
+                          'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800/30': medicationService.checkAndGetReminderStatus(med, time || '') === 'taken',
+                          'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-800/30': medicationService.checkAndGetReminderStatus(med, time || '') === 'missed',
+                          'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/30': medicationService.checkAndGetReminderStatus(med, time || '') === 'pending'
+                        }">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {{ time }} ({{ medicationService.checkAndGetReminderStatus(med, time || '') | uppercase }})
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="medication-actions flex flex-row gap-1 items-center">
+              <button (click)="editMedication(med?.id || '')" class="text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 rounded-lg p-2 transition-all duration-300" title="Edit medication">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/></svg>
+              </button>
+              <button (click)="deleteMedication(med?.id || '')" class="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg p-2 transition-all duration-300" title="Delete medication">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Fallback empty state cards -->
+        <div *ngIf="(medications$ | async)?.length === 0" class="text-center py-10 bg-slate-50/50 dark:bg-slate-900/10 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800/40">
+          <div class="w-14 h-14 bg-indigo-50 dark:bg-indigo-950/20 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">💊</div>
+          <p style="color: var(--text);" class="text-sm font-bold">No medications tracked yet</p>
+          <p style="color: var(--text-muted);" class="text-xs mt-1">Tap "Add New" above to record your first prescription</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Tips Section -->
+    <div class="premium-card p-6 w-full">
+      <!-- Header with title -->
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold flex items-center gap-2" style="color: var(--text);">
+          <svg class="h-5 w-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-3H7.5a2.25 2.25 0 00-2.25 2.25v1.35m13.5 0v-1.35m-13.5 0h13.5m-13.5 0a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 18m-18 0V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5V18m-18 0h18" />
+          </svg>
+          Health Insights
+        </h3>
+        <button (click)="selectRandomTip()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Get another tip">
+          <svg class="h-4.5 w-4.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Random Daily Tip Card -->
+      <div *ngIf="randomTip" class="mb-8 p-5 rounded-2xl border transition-all duration-300 hover:shadow-md"
+           style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(99, 102, 241, 0.01) 100%); border-color: rgba(99, 102, 241, 0.15);">
+        <div class="flex items-start gap-4">
+          <div class="text-3xl w-12 h-12 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0" style="background-color: var(--card);">{{ randomTip.icon }}</div>
+          <div class="flex-1">
+            <h4 class="font-extrabold text-[15px] mb-1" style="color: var(--text);">{{ randomTip.title }}</h4>
+            <p class="text-[13px] leading-relaxed font-semibold" style="color: var(--text-muted);">{{ randomTip.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="mb-6">
+        <p class="text-xs font-bold uppercase tracking-wider mb-3 text-slate-500 dark:text-slate-400">Filter by Category:</p>
+        <div class="flex flex-wrap gap-2">
+          <button (click)="filterTips('all')" 
+            [ngClass]="{'active': activeFilter === 'all'}"
+            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border"
+            [ngStyle]="activeFilter === 'all' ? {'background-color': 'var(--primary)', 'color': 'white', 'border-color': 'var(--primary)', 'box-shadow': '0 4px 10px rgba(99,102,241,0.2)'} : {'background-color': 'var(--card)', 'color': 'var(--text-muted)', 'border-color': 'rgba(0,0,0,0.08)'}">
+            All Tips
+          </button>
+          <button (click)="filterTips('medication')" 
+            [ngClass]="{'active': activeFilter === 'medication'}"
+            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
+            [ngStyle]="activeFilter === 'medication' ? {'background-color': '#0284C7', 'color': 'white', 'border-color': '#0284C7', 'box-shadow': '0 4px 10px rgba(2,132,199,0.2)'} : {'background-color': 'var(--card)', 'color': '#0284C7', 'border-color': 'rgba(2,132,199,0.2)'}">
+            <span>💊</span> Medication
+          </button>
+          <button (click)="filterTips('nutrition')" 
+            [ngClass]="{'active': activeFilter === 'nutrition'}"
+            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
+            [ngStyle]="activeFilter === 'nutrition' ? {'background-color': '#D97706', 'color': 'white', 'border-color': '#D97706', 'box-shadow': '0 4px 10px rgba(217,119,6,0.2)'} : {'background-color': 'var(--card)', 'color': '#D97706', 'border-color': 'rgba(217,119,6,0.2)'}">
+            <span>🥗</span> Nutrition
+          </button>
+          <button (click)="filterTips('mental')" 
+            [ngClass]="{'active': activeFilter === 'mental'}"
+            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
+            [ngStyle]="activeFilter === 'mental' ? {'background-color': 'var(--primary)', 'color': 'white', 'border-color': 'var(--primary)', 'box-shadow': '0 4px 10px rgba(99,102,241,0.2)'} : {'background-color': 'var(--card)', 'color': 'var(--primary)', 'border-color': 'rgba(99,102,241,0.2)'}">
+            <span>🧠</span> Mental Health
+          </button>
+        </div>
+      </div>
+
+      <!-- Tips Grid -->
+      <div class="grid grid-cols-1 gap-3">
+        <div *ngFor="let tip of filteredTips" 
+          class="p-4 rounded-2xl border transition-all duration-300 hover:shadow-md hover:border-indigo-500/20 bg-white dark:bg-slate-900/10"
+          style="border-color: rgba(0,0,0,0.05);">
+          <div class="flex items-center gap-4">
+            <div class="text-2xl w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0" style="background-color: var(--background);">{{ tip.icon }}</div>
+            <div class="flex-1">
+              <h4 class="font-extrabold text-[14px] mb-0.5" style="color: var(--text);">{{ tip.title }}</h4>
+              <p class="text-[12px] leading-snug font-semibold" style="color: var(--text-muted);">{{ tip.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredTips.length === 0" class="text-center py-8">
+        <p style="color: var(--text-muted);" class="text-sm font-semibold">No tips found for this category.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</ion-content>
+
+<app-confirmation-modal
+  [isOpen]="showConfirmModal"
+  [title]="modalTitle"
+  [message]="modalMessage"
+  [type]="modalType"
+  confirmText="Delete"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirmation-modal>
+
+<app-bottom-navigation></app-bottom-navigation>
