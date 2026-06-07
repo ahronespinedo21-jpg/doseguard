@@ -8,7 +8,7 @@ async function testAdminLogin() {
     await sequelize.authenticate();
     console.log('✅ Database connection established\n');
 
-    const adminEmail = 'admin@doseguard.com';
+    const adminEmail = 'admin@doseguard.app';
     const testPassword = 'admin123';
 
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -43,7 +43,7 @@ async function testAdminLogin() {
       console.log('✅ Password match successful!');
     } else {
       console.log('❌ Password mismatch!');
-      console.log('💡 Run: node scripts/resetPassword.js admin@doseguard.com to reset password');
+      console.log(`💡 Run: node scripts/resetPassword.js ${adminEmail} to reset password`);
       process.exit(1);
     }
 
@@ -53,7 +53,7 @@ async function testAdminLogin() {
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('');
     console.log('📧 Login with:');
-    console.log('   Email: admin@doseguard.com');
+    console.log(`   Email: ${adminEmail}`);
     console.log('   Password: admin123');
     console.log('');
     console.log('💡 Make sure the backend server is running:');

@@ -240,6 +240,15 @@ async function startServerWithFallback(port) {
   try {
     await sequelize.sync();
     
+    // Auto-create/validate admin user on server boot
+    try {
+      console.log('[STARTUP] 🔄 Verifying admin user account...');
+      const ensureAdmin = require('./ensure-admin');
+      await ensureAdmin({ isModule: true });
+    } catch (adminErr) {
+      console.error('[STARTUP] ⚠️ Failed to ensure admin user on startup:', adminErr.message);
+    }
+    
     const server = app.listen(port, HOST);
     currentServer = server;
 

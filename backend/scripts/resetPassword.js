@@ -7,7 +7,7 @@ async function resetPassword() {
   
   if (args.length < 1) {
     console.log('❌ Usage: node scripts/resetPassword.js <email> [new_password]');
-    console.log('   Example: node scripts/resetPassword.js admin@doseguard.com newpass123');
+    console.log('   Example: node scripts/resetPassword.js admin@doseguard.app newpass123');
     console.log('   If no password is provided, default will be "admin123"');
     process.exit(1);
   }
