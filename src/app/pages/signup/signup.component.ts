@@ -13,9 +13,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignupPageComponent {
   isLoading = false;
+  showPassword = false;
   errorMessage = '';
   successMessage = '';
   signupForm: FormGroup;
+
+  // Password strength properties
+  passwordStrengthScore = 0;
+  passwordStrengthLabel = '';
+  passwordStrengthColor = 'bg-slate-200 dark:bg-slate-800';
 
   constructor(
     private authService: AuthService,
@@ -28,6 +34,58 @@ export class SignupPageComponent {
       email:     ['', [Validators.required, Validators.email]],
       password:  ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  onPasswordInput(event: Event) {
+    const password = (event.target as HTMLInputElement).value;
+    this.calculatePasswordStrength(password);
+  }
+
+  calculatePasswordStrength(password: string) {
+    if (!password) {
+      this.passwordStrengthScore = 0;
+      this.passwordStrengthLabel = '';
+      this.passwordStrengthColor = 'bg-slate-200 dark:bg-slate-800';
+      return;
+    }
+
+    let score = 0;
+    
+    // 5 criteria for strength scoring
+    if (password.length >= 6) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    this.passwordStrengthScore = score;
+
+    switch (score) {
+      case 1:
+        this.passwordStrengthLabel = 'Weak';
+        this.passwordStrengthColor = 'bg-rose-500';
+        break;
+      case 2:
+      case 3:
+        this.passwordStrengthLabel = 'Fair';
+        this.passwordStrengthColor = 'bg-amber-500';
+        break;
+      case 4:
+        this.passwordStrengthLabel = 'Good';
+        this.passwordStrengthColor = 'bg-indigo-500';
+        break;
+      case 5:
+        this.passwordStrengthLabel = 'Strong';
+        this.passwordStrengthColor = 'bg-emerald-500';
+        break;
+      default:
+        this.passwordStrengthLabel = '';
+        this.passwordStrengthColor = 'bg-slate-200 dark:bg-slate-800';
+    }
   }
 
   onSubmit() {

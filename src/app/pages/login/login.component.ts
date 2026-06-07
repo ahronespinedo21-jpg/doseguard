@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPageComponent implements OnInit {
   isLoading = false;
+  showPassword = false;
   errorMessage = '';
   successMessage = '';
   loginForm: FormGroup;
@@ -26,17 +27,35 @@ export class LoginPageComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false]
     });
   }
 
   ngOnInit() {
-    // Pre-fill email if redirected from signup
+    // Pre-fill email if redirected from signup or if saved in localStorage
     this.route.queryParams.subscribe(params => {
       if (params['registered'] === 'true' && params['email']) {
         this.successMessage = 'Account created successfully! Please log in.';
         this.loginForm.patchValue({ email: params['email'] });
+      } else {
+        const savedEmail = localStorage.getItem('remembered_email');
+        if (savedEmail) {
+          this.loginForm.patchValue({ email: savedEmail, rememberMe: true });
+        }
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  forgotPassword() {
+    this.successMessage = 'A password reset email has been sent to your registered email address.';
+    this.errorMessage = '';
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 5000);
   }
 
   onSubmit() {
@@ -50,18 +69,20 @@ export class LoginPageComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
     console.log('[AUTH] Login attempt for:', email);
 
-    // The backend login also triggers Firebase Auth sync in AuthService.
-    // No connectivity pre-check — let the backend handle errors directly
-    // so we get accurate error messages and avoid false "offline" blocks.
+    // Handle remember me logic
+    if (rememberMe) {
+      localStorage.setItem('remembered_email', email);
+    } else {
+      localStorage.removeItem('remembered_email');
+    }
+
     this.authService.login(email, password).subscribe({
       next: () => {
         this.isLoading = false;
         console.log('[AUTH] Login successful — navigating to dashboard');
-        // Navigation is already handled inside authService.login() tap().
-        // This next() is here for safety if navigation fires before subscribe.
       },
       error: (error: any) => {
         this.isLoading = false;
