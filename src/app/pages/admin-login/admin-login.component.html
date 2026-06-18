@@ -1,28 +1,41 @@
 <!-- Premium Admin Authentication Card -->
-<div class="auth-background min-h-screen flex items-center justify-center p-4 md:p-6 overflow-hidden">
+<div class="auth-background">
   <!-- Glowing subtle gradient backdrops -->
-  <div class="absolute -top-40 -left-40 w-96 h-96 bg-rose-500 rounded-full filter blur-3xl opacity-15 animate-blob"></div>
-  <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+  <div class="absolute -top-40 -left-40 w-96 h-96 bg-rose-500 rounded-full filter blur-3xl opacity-15 animate-blob">
+  </div>
+  <div
+    class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000">
+  </div>
 
-  <div class="w-full max-w-[1000px] flex flex-col md:flex-row rounded-3xl overflow-hidden glass-card relative z-10 shadow-2xl transition-all duration-300">
-    
-    <!-- Left Column: Security and Control Marketing card -->
-    <div class="w-full md:w-1/2 bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 p-8 md:p-12 flex flex-col justify-between text-white relative overflow-hidden">
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.08),transparent)] pointer-events-none"></div>
-      
+  <div class="w-full max-w-[1000px] rounded-3xl glass-card relative z-10 shadow-2xl transition-all duration-300">
+
+    <!-- Left Column: Security and Control Marketing card (hidden on mobile, visible on desktop) -->
+    <div
+      class="hidden md:flex md:w-1/2 bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 p-8 md:p-12 flex-col justify-between text-white relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.08),transparent)] pointer-events-none">
+      </div>
+
       <!-- Healthcare-themed floating background elements -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-[0.05] select-none">
-        <svg class="absolute w-20 h-10 top-[12%] left-[8%] rotate-[35deg] blur-[0.5px] animate-float-slow-1 text-white" viewBox="0 0 100 50">
-          <rect x="5" y="10" width="90" height="30" rx="15" ry="15" stroke="currentColor" stroke-width="6" fill="none"/>
-          <line x1="50" y1="10" x2="50" y2="40" stroke="currentColor" stroke-width="6"/>
+        <svg class="absolute w-20 h-10 top-[12%] left-[8%] rotate-[35deg] blur-[0.5px] animate-float-slow-1 text-white"
+          viewBox="0 0 100 50">
+          <rect x="5" y="10" width="90" height="30" rx="15" ry="15" stroke="currentColor" stroke-width="6"
+            fill="none" />
+          <line x1="50" y1="10" x2="50" y2="40" stroke="currentColor" stroke-width="6" />
         </svg>
-        <svg class="absolute w-16 h-16 top-[28%] right-[12%] rotate-[15deg] blur-[0.5px] animate-float-slow-2 text-white" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="35" stroke="currentColor" stroke-width="6" fill="none"/>
-          <line x1="15" y1="50" x2="85" y2="50" stroke="currentColor" stroke-width="6"/>
+        <svg
+          class="absolute w-16 h-16 top-[28%] right-[12%] rotate-[15deg] blur-[0.5px] animate-float-slow-2 text-white"
+          viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="35" stroke="currentColor" stroke-width="6" fill="none" />
+          <line x1="15" y1="50" x2="85" y2="50" stroke="currentColor" stroke-width="6" />
         </svg>
-        <svg class="absolute w-24 h-12 bottom-[35%] left-[15%] rotate-[-45deg] blur-[0.5px] animate-float-slow-3 text-white" viewBox="0 0 100 50">
-          <rect x="10" y="10" width="80" height="30" rx="15" ry="15" stroke="currentColor" stroke-width="6" fill="none"/>
-          <line x1="50" y1="10" x2="50" y2="40" stroke="currentColor" stroke-width="6"/>
+        <svg
+          class="absolute w-24 h-12 bottom-[35%] left-[15%] rotate-[-45deg] blur-[0.5px] animate-float-slow-3 text-white"
+          viewBox="0 0 100 50">
+          <rect x="10" y="10" width="80" height="30" rx="15" ry="15" stroke="currentColor" stroke-width="6"
+            fill="none" />
+          <line x1="50" y1="10" x2="50" y2="40" stroke="currentColor" stroke-width="6" />
         </svg>
       </div>
 
@@ -30,32 +43,36 @@
         <!-- Logo -->
         <div class="flex items-center gap-3.5 mb-12">
           <div class="bg-white/5 rounded-2xl p-2.5 backdrop-blur-md border border-white/10 shadow-inner">
-            <img src="/assets/images/doseguard-logo.png" alt="DoseGuard Logo" class="h-10 w-10 object-contain rounded-xl" />
+            <img src="/assets/images/doseguard-logo.png" alt="DoseGuard Logo"
+              class="h-10 w-10 object-contain rounded-xl" />
           </div>
           <div>
             <h2 class="text-2xl font-extrabold tracking-tight">DoseGuard</h2>
             <p class="text-[9px] uppercase tracking-widest text-rose-400 font-bold">Admin Portal</p>
           </div>
         </div>
-        
+
         <!-- Headline -->
         <div class="my-auto py-6">
           <h3 class="text-3xl md:text-4xl font-black tracking-tight leading-tight mb-4 text-slate-100">
             Secure Executive Control Panel
           </h3>
           <p class="text-slate-350 text-sm leading-relaxed mb-8 font-medium max-w-md">
-            Access the central administration hub to manage user accounts, review stock anomalies, update settings, and track system status reports.
+            Access the central administration hub to manage user accounts, review stock anomalies, update settings, and
+            track system status reports.
           </p>
-          
+
           <div class="space-y-4">
-            <div class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
+            <div
+              class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
               <div class="text-2xl bg-white/10 rounded-xl p-2">🛡️</div>
               <div>
                 <h4 class="font-bold text-sm">Security Audited</h4>
                 <p class="text-xs text-slate-400">Encrypted logs and role-based permissions.</p>
               </div>
             </div>
-            <div class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
+            <div
+              class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
               <div class="text-2xl bg-white/10 rounded-xl p-2">📊</div>
               <div>
                 <h4 class="font-bold text-sm">Real-time Analytics</h4>
@@ -72,94 +89,113 @@
     </div>
 
     <!-- Right Column: Admin Form Layout -->
-    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
-      
+    <div class="w-full md:w-1/2 auth-form-container bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
+
       <!-- Mobile Badge -->
-      <div class="flex justify-center mb-6 md:hidden">
-        <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-slate-900 to-indigo-950 border border-rose-500/20 text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-md">
+      <div class="flex justify-center auth-logo-margin md:hidden">
+        <span
+          class="inline-flex items-center gap-1.5 bg-gradient-to-r from-slate-900 to-indigo-950 border border-rose-500/20 text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-md">
           <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
           🔐 SECURE ADMIN ACCESS
         </span>
       </div>
 
       <!-- Header -->
-      <div class="mb-8">
+      <div class="auth-header-margin text-center md:text-left">
         <h1 class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight mb-2">Portal Access</h1>
         <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Verify your administrative credentials</p>
       </div>
 
       <!-- Error Alert -->
-      <div *ngIf="errorMessage" class="mb-6 p-4 bg-rose-50 dark:bg-rose-950/20 border border-rose-200/50 rounded-2xl text-rose-700 dark:text-rose-400 text-sm backdrop-blur-sm flex items-start gap-3 animate-shake shadow-sm">
-        <svg class="h-5 w-5 mt-0.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+      <div *ngIf="errorMessage"
+        class="mb-6 p-4 bg-rose-50 dark:bg-rose-950/20 border border-rose-200/50 rounded-2xl text-rose-700 dark:text-rose-400 text-sm backdrop-blur-sm flex items-start gap-3 animate-shake shadow-sm">
+        <svg class="h-5 w-5 mt-0.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
         </svg>
         <span>{{ errorMessage }}</span>
       </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form-spacing">
         <!-- Email Input -->
         <div class="input-group">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Admin Email</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Admin
+            Email</label>
           <div class="relative">
-            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-450 dark:text-slate-500 pointer-events-none transition-colors">
+            <span
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-450 dark:text-slate-500 pointer-events-none transition-colors">
               <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615a2.25 2.25 0 01-1.07-1.916V6.75" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
             </span>
             <input type="email" formControlName="email" [disabled]="isLoading"
-              class="input-field w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 dark:focus:border-rose-400 transition-all placeholder-slate-450 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
+              class="input-field w-full pl-12 pr-4 auth-input-padding bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 dark:focus:border-rose-400 transition-all placeholder-slate-450 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
               [class.border-rose-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-              placeholder="admin@doseguard.app" />
+              placeholder="For_admin_only" />
           </div>
-          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-xs text-rose-500 mt-1.5 flex items-center gap-1.5 animate-slideDown font-semibold">
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            class="text-xs text-rose-500 mt-1.5 flex items-center gap-1.5 animate-slideDown font-semibold">
             Please enter a valid administrative email.
           </div>
         </div>
 
         <!-- Password Input -->
         <div class="input-group">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Admin Password</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Admin
+            Password</label>
           <div class="relative">
-            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-450 dark:text-slate-500 pointer-events-none transition-colors">
+            <span
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-450 dark:text-slate-500 pointer-events-none transition-colors">
               <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             </span>
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password" [disabled]="isLoading"
-              class="input-field w-full pl-12 pr-12 py-3.5 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 dark:focus:border-rose-450 transition-all placeholder-slate-405 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
+              class="input-field w-full pl-12 pr-12 auth-input-padding bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 dark:focus:border-rose-450 transition-all placeholder-slate-405 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
               [class.border-rose-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
               placeholder="••••••••" />
-            
+
             <!-- Eye visibility button -->
             <button type="button" (click)="togglePasswordVisibility()" [disabled]="isLoading"
-              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-450 hover:text-rose-500 dark:hover:text-rose-450 focus:outline-none transition-colors pointer-events-auto">
-              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-455 hover:text-rose-500 dark:hover:text-rose-450 focus:outline-none transition-colors pointer-events-auto">
+              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
               </svg>
             </button>
           </div>
-          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-xs text-rose-500 mt-1.5 flex items-center gap-1.5 animate-slideDown font-semibold">
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            class="text-xs text-rose-500 mt-1.5 flex items-center gap-1.5 animate-slideDown font-semibold">
             Password is required.
           </div>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" [disabled]="isLoading || loginForm.invalid"
-          class="w-full bg-gradient-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-800 text-white font-bold py-3.5 px-4 rounded-2xl transition-all transform hover:translate-y-[-1.5px] hover:shadow-lg active:translate-y-[0.5px] disabled:from-slate-450 disabled:to-slate-550 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-550 focus:ring-offset-2 dark:focus:ring-offset-slate-950 mt-4">
+          class="w-full bg-gradient-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-800 text-white font-bold auth-btn-padding px-4 rounded-2xl transition-all transform hover:translate-y-[-1.5px] hover:shadow-lg active:translate-y-[0.5px] disabled:from-slate-450 disabled:to-slate-550 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-550 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
           <span *ngIf="!isLoading" class="flex items-center justify-center gap-2">
             <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
             </svg>
             Access Admin Panel
           </span>
           <span *ngIf="isLoading" class="flex items-center justify-center gap-2">
             <svg class="animate-spin h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
             </svg>
             Verifying secure console...
           </span>
@@ -167,20 +203,24 @@
       </form>
 
       <!-- Divider -->
-      <div class="my-7 flex items-center gap-4">
+      <div class="flex items-center gap-4 auth-divider-margin">
         <div class="flex-1 h-px bg-slate-150 dark:bg-slate-850"></div>
-        <span class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest select-none">OR RETURN</span>
+        <span
+          class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest select-none">OR
+          RETURN</span>
         <div class="flex-1 h-px bg-slate-150 dark:bg-slate-850"></div>
       </div>
 
       <!-- Back Link -->
-      <button type="button" (click)="goBack()" [disabled]="isLoading"
-        class="w-full bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/60 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold py-3.5 px-4 rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-xs focus:outline-none hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
-        <svg class="h-4 w-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-        </svg>
-        Back to User Login
-      </button>
+      <div class="text-center auth-footer-spacing">
+        <button type="button" (click)="goBack()" [disabled]="isLoading"
+          class="w-full bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/60 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold auth-btn-padding px-4 rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-xs focus:outline-none hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
+          <svg class="h-4 w-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          </svg>
+          Back to User Login
+        </button>
+      </div>
 
     </div>
   </div>

@@ -204,6 +204,26 @@
         </div>
 
         <div class="space-y-3.5">
+          <!-- Start Date -->
+          <div>
+            <label class="block text-[13px] font-bold mb-1.5 ml-1" style="color: var(--text);">📅 Start Date</label>
+            <div class="relative">
+              <input type="date" formControlName="startDate" [disabled]="isLoading"
+                class="w-full pl-11 pr-4 py-3.5 rounded-[16px] border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30 focus:border-[#7C3AED] disabled:bg-gray-100 dark:disabled:bg-slate-950 transition-all duration-300 text-[15px] font-medium"
+                style="color: var(--text);"
+                [class.border-red-500]="medicationForm.get('startDate')?.invalid && medicationForm.get('startDate')?.touched"
+                [style.background-color]="medicationForm.get('startDate')?.invalid && medicationForm.get('startDate')?.touched ? '#FFF1F2' : ''"
+                placeholder="Select Date" />
+              <svg class="h-5 w-5 absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <p *ngIf="medicationForm.get('startDate')?.invalid && medicationForm.get('startDate')?.touched"
+              class="text-[11px] font-semibold mt-1.5 ml-1 text-[#E11D48]">Start Date is required</p>
+          </div>
+
           <div class="flex items-center gap-3">
             <div class="flex-1 relative">
               <input type="text" (click)="openTimePicker(0)" [value]="selectedTimes[0] || ''" [disabled]="isLoading"

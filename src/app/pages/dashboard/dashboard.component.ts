@@ -375,6 +375,19 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatDateString(dateStr: any): string {
+    if (!dateStr) return '';
+    try {
+      const formattedDateStr = dateStr.includes('T') ? dateStr : `${dateStr}T00:00:00`;
+      const date = new Date(formattedDateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    } catch (e) {
+      return dateStr;
+    }
+  }
+
   getStatusClass(status: string): string {
     if (status === 'taken') return 'bg-emerald-100 text-emerald-700 border-emerald-200';
     if (status === 'missed') return 'bg-rose-100 text-rose-700 border-rose-200';

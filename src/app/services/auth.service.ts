@@ -8,6 +8,8 @@ import { ApiConfigService } from './api-config.service';
 import { inject } from '@angular/core';
 import { Auth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, authState, updateProfile } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 export interface User {
   id: string;
@@ -40,7 +42,7 @@ export class AuthService {
   private firestore = inject(Firestore);
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private http: HttpClient,
     private apiConfig: ApiConfigService
   ) {
@@ -307,12 +309,12 @@ export class AuthService {
 
   // Admin Login - Real backend implementation
   adminLogin(email: string, password: string): Observable<any> {
-    
+
     const loginData = { email, password };
 
     return this.http.post(`${this.API_URL}/auth/login`, loginData).pipe(
       tap((response: any) => {
-        
+
         // Check if user is admin
         if (response.user.role !== 'admin') {
           throw new Error('Only admin accounts can access the admin panel.');
@@ -343,14 +345,37 @@ export class AuthService {
 
   // Social Login Methods
   signInWithGoogle(): Observable<any> {
+
+    if (Capacitor.isNativePlatform()) {
+
+      return from(
+        FirebaseAuthentication.signInWithGoogle()
+      ).pipe(
+        tap((result: any) => {
+          if (result.user) {
+            this.handleSocialLoginSuccess(result.user);
+          }
+        }),
+        catchError((error: any) => {
+          console.error('❌ FULL GOOGLE ERROR:', JSON.stringify(error));
+          console.error(error);
+          return throwError(() => error);
+        })
+      );
+    }
+
     const provider = new GoogleAuthProvider();
-    return from(signInWithPopup(this.fireAuth, provider)).pipe(
+
+    return from(
+      signInWithPopup(this.fireAuth, provider)
+    ).pipe(
       tap((result: any) => {
         this.handleSocialLoginSuccess(result.user);
       }),
       catchError((error: any) => {
-        console.error('❌ Google login failed:', error);
-        return throwError(() => new Error('Google login failed. Please try again.'));
+        console.error('❌ FULL GOOGLE ERROR:', JSON.stringify(error));
+        console.error(error);
+        return throwError(() => error);
       })
     );
   }

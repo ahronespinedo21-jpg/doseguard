@@ -51,6 +51,7 @@ export class AddMedicationPageComponent {
       stockLevel: [30, [Validators.required, Validators.min(1), Validators.max(30)]],
       notes: [''],
       isPillboxConnected: [false],
+      startDate: [new Date().toISOString().split('T')[0], Validators.required],
     });
   }
 
@@ -235,7 +236,7 @@ export class AddMedicationPageComponent {
       timeSchedule: reminderTimes24h,
       stockLevel: formValue.stockLevel,
       frequency: 'daily',
-      startDate: new Date().toISOString().split('T')[0]
+      startDate: formValue.startDate
     };
 
     from(this.medicationService.addMedication(payload)).pipe(

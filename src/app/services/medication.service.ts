@@ -544,6 +544,7 @@ export class MedicationService {
       reminderSchedule: schedule,
       reminderTime: schedule[0] || '08:00 AM',
       createdAt: new Date().toISOString(),
+      startDate: medication.startDate || new Date().toISOString().split('T')[0],
       isActive: true,
       pending: true,
       taken: false,

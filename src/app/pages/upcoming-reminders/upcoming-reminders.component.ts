@@ -79,6 +79,19 @@ export class UpcomingRemindersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  formatDateString(dateStr: any): string {
+    if (!dateStr) return '';
+    try {
+      const formattedDateStr = dateStr.includes('T') ? dateStr : `${dateStr}T00:00:00`;
+      const date = new Date(formattedDateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    } catch (e) {
+      return dateStr;
+    }
+  }
+
   goBack() {
     this.location.back();
   }

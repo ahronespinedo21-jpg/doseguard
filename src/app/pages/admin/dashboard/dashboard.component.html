@@ -127,7 +127,7 @@
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
           <!-- Total Users -->
           <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
             <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
@@ -142,22 +142,6 @@
               <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Total Patients</p>
             </div>
             <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.totalUsers }}</p>
-          </div>
-
-          <!-- Total Medications -->
-          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/50 dark:border-slate-800/80 shadow-premium relative overflow-hidden group">
-            <div class="absolute top-0 right-0 p-4 opacity-5 transform translate-x-2 -translate-y-2 group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 10.5A1.5 1.5 0 003 12v3.75a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5V12a1.5 1.5 0 00-1.5-1.5h-15z"/></svg>
-            </div>
-            <div class="flex items-center gap-4 mb-3">
-              <div class="bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 p-3 rounded-2xl">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-                </svg>
-              </div>
-              <p class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest">Total Meds</p>
-            </div>
-            <p *ngIf="!isLoading" class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{{ stats.totalMedications }}</p>
           </div>
 
           <!-- Active Medications -->

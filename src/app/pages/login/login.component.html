@@ -1,13 +1,13 @@
 <!-- Premium Authentication Card -->
-<div class="auth-background min-h-screen flex items-center justify-center p-4 md:p-6 overflow-hidden">
+<div class="auth-background">
   <!-- Glowing subtle gradient backdrops -->
   <div class="absolute -top-40 -left-40 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
   <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl opacity-25 animate-blob animation-delay-2000"></div>
 
-  <div class="w-full max-w-[1000px] flex flex-col md:flex-row rounded-3xl overflow-hidden glass-card relative z-10 shadow-2xl transition-all duration-300">
+  <div class="w-full max-w-[1000px] rounded-3xl glass-card relative z-10 shadow-2xl transition-all duration-300">
     
-    <!-- Left Column: Marketing / Info panel -->
-    <div class="w-full md:w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-8 md:p-12 flex flex-col justify-between text-white relative overflow-hidden">
+    <!-- Left Column: Marketing / Info panel (hidden on mobile, visible on desktop) -->
+    <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 p-8 md:p-12 flex-col justify-between text-white relative overflow-hidden">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none"></div>
       
       <!-- Healthcare animated background elements -->
@@ -77,10 +77,10 @@
     </div>
 
     <!-- Right Column: Login Form -->
-    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
+    <div class="w-full md:w-1/2 auth-form-container bg-white/95 dark:bg-slate-950/95 backdrop-blur-md">
       
       <!-- Brand Logo for mobile screens -->
-      <div class="flex md:hidden justify-center mb-8">
+      <div class="flex md:hidden justify-center auth-logo-margin">
         <div class="flex items-center gap-3 bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 shadow-sm">
           <img src="/assets/images/doseguard-logo.png" alt="DoseGuard Logo" class="h-8 w-8 object-contain rounded-lg" />
           <div>
@@ -91,7 +91,7 @@
       </div>
 
       <!-- Welcome Headers -->
-      <div class="mb-8">
+      <div class="auth-header-margin text-center md:text-left">
         <h1 class="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight mb-2">Welcome Back</h1>
         <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Sign in to manage your medications</p>
       </div>
@@ -112,7 +112,7 @@
         <span>{{ errorMessage }}</span>
       </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form-spacing">
         <!-- Email Field -->
         <div class="input-group">
           <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Email Address</label>
@@ -123,7 +123,7 @@
               </svg>
             </span>
             <input type="email" formControlName="email" [disabled]="isLoading"
-              class="input-field w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all placeholder-slate-400 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
+              class="input-field w-full pl-12 pr-4 auth-input-padding bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all placeholder-slate-400 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
               [class.border-rose-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
               placeholder="name@example.com" />
           </div>
@@ -146,7 +146,7 @@
               </svg>
             </span>
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password" [disabled]="isLoading"
-              class="input-field w-full pl-12 pr-12 py-3.5 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all placeholder-slate-400 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
+              class="input-field w-full pl-12 pr-12 auth-input-padding bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all placeholder-slate-400 text-slate-800 dark:text-slate-100 font-medium shadow-inner"
               [class.border-rose-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
               placeholder="••••••••" />
             <!-- Password Show/Hide Toggle -->
@@ -186,7 +186,7 @@
 
         <!-- Sign In Submit Button -->
         <button type="submit" [disabled]="isLoading || loginForm.invalid"
-          class="w-full bg-gradient-to-r from-indigo-600 to-indigo-850 hover:from-indigo-700 hover:to-purple-900 text-white font-bold py-3.5 px-4 rounded-2xl transition-all transform hover:translate-y-[-1.5px] hover:shadow-lg active:translate-y-[0.5px] disabled:from-slate-450 disabled:to-slate-550 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
+          class="w-full bg-gradient-to-r from-indigo-600 to-indigo-850 hover:from-indigo-700 hover:to-purple-900 text-white font-bold auth-btn-padding px-4 rounded-2xl transition-all transform hover:translate-y-[-1.5px] hover:shadow-lg active:translate-y-[0.5px] disabled:from-slate-450 disabled:to-slate-550 disabled:cursor-not-allowed shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
           <span *ngIf="!isLoading" class="flex items-center justify-center gap-2">
             <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
@@ -204,16 +204,16 @@
       </form>
 
       <!-- Divider -->
-      <div class="my-7 flex items-center gap-4">
+      <div class="flex items-center gap-4 auth-divider-margin">
         <div class="flex-1 h-px bg-slate-150 dark:bg-slate-850"></div>
         <span class="text-slate-400 dark:text-slate-500 text-[10px] font-extrabold uppercase tracking-widest select-none">OR CONTINUE WITH</span>
         <div class="flex-1 h-px bg-slate-150 dark:bg-slate-850"></div>
       </div>
 
       <!-- Social Login Buttons -->
-      <div class="grid grid-cols-2 gap-4 mb-8">
+      <div class="grid grid-cols-2 gap-4 auth-social-margin">
         <button type="button" (click)="loginWithGoogle()" [disabled]="isLoading"
-          class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-350 font-bold py-3 px-4 rounded-2xl transition-all transform hover:translate-y-[-1px] active:translate-y-[0px] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-xs flex items-center justify-center gap-2 focus:outline-none focus:ring-1 focus:ring-slate-300">
+          class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-855 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-350 font-bold py-3 px-4 rounded-2xl transition-all transform hover:translate-y-[-1px] active:translate-y-[0px] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-xs flex items-center justify-center gap-2 focus:outline-none focus:ring-1 focus:ring-slate-300">
           <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -233,7 +233,7 @@
       </div>
 
       <!-- Bottom Navigation Links -->
-      <div class="text-center space-y-4">
+      <div class="text-center auth-footer-spacing">
         <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">
           Don't have an account yet?
           <button (click)="goToSignup()" [disabled]="isLoading"
@@ -244,7 +244,7 @@
 
         <!-- Admin Control Access Button -->
         <button type="button" (click)="goToAdminLogin()" [disabled]="isLoading"
-          class="w-full bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/60 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold py-3.5 px-4 rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-xs focus:outline-none hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
+          class="w-full bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/60 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold auth-btn-padding px-4 rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-xs focus:outline-none hover:-translate-y-0.5 active:translate-y-0 shadow-sm">
           <svg class="h-4.5 w-4.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
           </svg>

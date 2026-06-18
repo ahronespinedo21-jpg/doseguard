@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "290278679540",
+    "firebase_url": "https://doseguard-8c345-default-rtdb.firebaseio.com",
+    "project_id": "doseguard-8c345",
+    "storage_bucket": "doseguard-8c345.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290278679540:android:344d377cad36ae04224fa1",
+        "android_client_info": {
+          "package_name": "com.doseguard.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290278679540-cs6aj743tmt7kfvu5flh5aal0dqa8v0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doseguard.app",
+            "certificate_hash": "00fc8ea74b82c82a841d8e818a1d34aa9d670201"
+          }
+        },
+        {
+          "client_id": "290278679540-jhhcg93gr8hivkpc1uthsbrrfk426p23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDcrPKjZ8otL-v0Mydts7YHXatboXiHP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290278679540-jhhcg93gr8hivkpc1uthsbrrfk426p23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

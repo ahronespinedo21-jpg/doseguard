@@ -52,6 +52,16 @@ exports.register = async (req, res) => {
   try {
     let { firstName, lastName, email, password, phone, dateOfBirth, firebaseUid } = req.body;
 
+    // Temporary logging for registration payload (without password)
+    console.log('[AUTH] [REGISTER] Request Payload:', {
+      firstName,
+      lastName,
+      email,
+      phone,
+      dateOfBirth,
+      firebaseUid
+    });
+
     // Trim whitespace from inputs
     firstName = firstName ? firstName.trim() : '';
     lastName = lastName ? lastName.trim() : '';
@@ -89,12 +99,22 @@ exports.register = async (req, res) => {
     if (firebaseUid) {
       userData.id = firebaseUid;
       console.log('[AUTH] [REGISTER] Using Firebase UID as user ID:', firebaseUid);
+    } else {
+      const crypto = require('crypto');
+      userData.id = crypto.randomUUID ? crypto.randomUUID() : `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      console.log('[AUTH] [REGISTER] No Firebase UID provided. Generated fallback ID:', userData.id);
     }
 
     const user = await User.create(userData);
     const token = generateToken(user);
 
-    console.log('[AUTH] [REGISTER] User registered successfully:', email, '| ID:', user.id);
+    // Logging database insert result
+    console.log('[AUTH] [REGISTER] User registered successfully and inserted into database:', {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt
+    });
 
     return res.status(201).json({
       success: true,
@@ -110,6 +130,9 @@ exports.register = async (req, res) => {
     });
   } catch (error) {
     console.error('[AUTH] [REGISTER] ❌ Registration error:', error.message || error);
+    if (error.name === 'SequelizeValidationError') {
+      console.error('[AUTH] [REGISTER] Sequelize validation errors:', error.errors.map(e => e.message));
+    }
     return res.status(500).json({
       success: false,
       message: 'Registration failed. Please try again.'

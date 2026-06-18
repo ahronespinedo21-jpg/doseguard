@@ -3,7 +3,7 @@
   <app-sidebar *ngIf="showSidebar" [sidebarOpen]="sidebarOpen" (toggleSidebar)="toggleSidebar()"></app-sidebar>
   
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
+  <div class="flex-1 flex flex-col overflow-hidden w-full max-w-full overflow-x-hidden">
     <!-- Mobile Header -->
     <div *ngIf="showSidebar" class="md:hidden border-b transition-colors duration-300 px-4 py-3 flex items-center justify-between"
          style="background-color: var(--card); border-color: rgba(0,0,0,0.05);">
@@ -23,7 +23,7 @@
     </div>
     
     <!-- Scrollable Content Area -->
-    <div class="flex-1 overflow-y-auto">
+    <div class="flex-1 overflow-y-auto overflow-x-hidden w-full max-w-full">
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -5,7 +5,7 @@
 
   <div class="min-h-screen w-full overflow-x-hidden bg-background">
   <div class="sticky top-0 z-40 glass-effect border-b-0 pb-2 pt-4">
-    <div class="mx-auto px-6 max-w-[1300px] flex items-center justify-between">
+    <div class="header-container mx-auto px-6 max-w-[1300px] flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-[14px] p-2.5 shadow-md border border-indigo-400/20">
           <svg class="h-6 w-6 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.5">
@@ -24,7 +24,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="mx-auto px-6 py-6 pb-6 max-w-[1300px] space-y-6">
+  <div class="dashboard-container mx-auto px-6 py-6 pb-6 max-w-[1300px] space-y-6">
     <!-- Alert Banners -->
     <div *ngIf="successMessage" class="rounded-2xl p-4 bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-3 animate-fade-in shadow-sm">
       <svg class="h-5 w-5 stroke-emerald-600 fill-none" viewBox="0 0 24 24">
@@ -59,13 +59,20 @@
     <div *ngIf="!isLoading" class="space-y-6 w-full">
       <!-- Adherence Rate Card -->
       <div class="w-full">
-        <div class="rounded-[28px] p-6 w-full relative overflow-hidden transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_20px_48px_rgba(99,102,241,0.25)] cursor-pointer"
+        <div class="adherence-card rounded-[28px] p-6 w-full relative overflow-hidden transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_20px_48px_rgba(99,102,241,0.25)] cursor-pointer"
              style="background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%); box-shadow: 0 16px 36px -4px rgba(99, 102, 241, 0.35);">
           <!-- Decorative glass circles -->
           <div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
           <div class="absolute left-1/3 -bottom-16 w-32 h-32 bg-indigo-300/20 rounded-full blur-xl pointer-events-none"></div>
           
-          <div class="flex items-center justify-between gap-6 relative z-10">
+          <!-- Floating Healthcare Elements -->
+          <div class="floating-pill floating-pill-1 pointer-events-none"></div>
+          <div class="floating-pill floating-pill-2 pointer-events-none"></div>
+          <div class="floating-pill floating-pill-3 pointer-events-none"></div>
+          <div class="floating-pill floating-pill-4 pointer-events-none"></div>
+          <div class="floating-pill floating-pill-5 pointer-events-none"></div>
+          
+          <div class="adherence-flex flex items-center justify-between gap-6 relative z-10">
             <!-- Left: Circular Progress -->
             <div class="flex-shrink-0 relative w-[80px] h-[80px]">
               <svg class="transform -rotate-90 w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)]" viewBox="0 0 100 100">
@@ -74,7 +81,8 @@
                         [attr.stroke-dasharray]="257.6"
                         [attr.stroke-dashoffset]="257.6 - (257.6 * adherenceStats.adherenceRate / 100)"
                         stroke-linecap="round"
-                        class="transition-all duration-1000 ease-out"/>
+                        class="adherence-ring transition-all duration-1000 ease-out"
+                        [style.--ring-glow-opacity]="(adherenceStats.adherenceRate || 0) / 100"/>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
                 <span class="text-lg font-black text-white tracking-tighter">{{ adherenceStats.adherenceRate | number:'1.0-0' }}%</span>
@@ -85,22 +93,33 @@
             <!-- Center: Text Content -->
             <div class="flex-1">
               <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider text-indigo-100 bg-white/10 backdrop-blur-md mb-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-glowing"></span>
                 ADHERENCE TRACKER
               </span>
               <h3 class="text-xl font-extrabold text-white mb-1 tracking-tight">
-                <span *ngIf="adherenceStats.adherenceRate === 100">Perfect Day! 🎉</span>
-                <span *ngIf="adherenceStats.adherenceRate > 0 && adherenceStats.adherenceRate < 100">Keep going! 💪</span>
-                <span *ngIf="adherenceStats.adherenceRate === 0">Let's start! 🚀</span>
+                <span *ngIf="adherenceStats.adherenceRate === 100">Perfect Day! <span class="inline-block float-emoji">🎉</span></span>
+                <span *ngIf="adherenceStats.adherenceRate > 0 && adherenceStats.adherenceRate < 100">Keep going! <span class="inline-block float-emoji">💪</span></span>
+                <span *ngIf="adherenceStats.adherenceRate === 0">Let's start! <span class="inline-block float-emoji float-rocket">🚀</span></span>
               </h3>
               <p class="text-[13px] text-indigo-100 mb-3 font-medium">
                 <span *ngIf="adherenceStats.taken === 0">You haven't taken any doses yet today.</span>
                 <span *ngIf="adherenceStats.taken > 0">You've taken {{ adherenceStats.taken }} dose(s) today.</span>
               </p>
-              <div class="w-full rounded-full h-2.5 overflow-hidden bg-white/20">
-                <div class="h-full rounded-full transition-all duration-1000 ease-out bg-white relative overflow-hidden"
-                     [style.width.%]="adherenceStats.adherenceRate > 100 ? 100 : adherenceStats.adherenceRate">
-                   <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/45 to-transparent w-[200%] animate-[shimmer_2s_infinite]"></div>
+              <!-- Progress Bar Wrapper -->
+              <div class="relative w-full py-2.5">
+                <!-- Progress Bar Track -->
+                <div class="w-full rounded-full h-2.5 overflow-hidden bg-white/20 backdrop-blur-sm shadow-[inset_0_1px_3px_rgba(0,0,0,0.2)]">
+                  <!-- Progress Bar Fill -->
+                  <div class="h-full rounded-full transition-all duration-1000 ease-out bg-white relative overflow-hidden"
+                       [style.width.%]="adherenceStats.adherenceRate > 100 ? 100 : adherenceStats.adherenceRate">
+                     <div class="progress-shimmer"></div>
+                  </div>
+                </div>
+                
+                <!-- Moving Pill Progress Indicator -->
+                <div class="progress-pill-indicator pointer-events-none"
+                     [style.left.%]="adherenceStats.adherenceRate > 100 ? 100 : adherenceStats.adherenceRate">
+                  <div class="progress-pill-inner"></div>
                 </div>
               </div>
             </div>
@@ -109,95 +128,130 @@
       </div>
 
       <!-- Stats Grid -->
-      <div class="grid grid-cols-3 gap-3.5 w-full">
+      <div class="grid grid-cols-1 min-[480px]:grid-cols-3 gap-3.5 w-full stats-card-grid">
         <!-- Doses Taken -->
-        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#10B981]">
-          <div class="absolute -right-6 -bottom-6 bg-[#10B981]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
-          <div class="flex justify-between items-start z-10">
-            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Taken</p>
-            <div class="bg-emerald-50 dark:bg-emerald-950/40 rounded-full p-2 text-emerald-500">
-              <svg class="h-4.5 w-4.5 stroke-emerald-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div class="status-card taken-card">
+          <div class="status-card-content">
+            <div class="card-icon-container icon-taken">
+              <div class="bg-white rounded-full p-1.5 w-7 h-7 flex items-center justify-center shadow-sm">
+                <svg class="h-4.5 w-4.5 stroke-emerald-500 fill-none" viewBox="0 0 24 24" stroke-width="4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-text-container">
+              <span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Taken</span>
+              <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Doses Complete</span>
+              <span class="card-description text-[11px] text-slate-500 dark:text-slate-400 font-medium">You're doing great! Keep it up.</span>
             </div>
           </div>
-          <div class="z-10">
-            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ takenCount }}</p>
-            <p class="text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 mt-2">Doses Complete</p>
+          <div class="card-badge">
+            <span class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 leading-none">{{ takenCount }}</span>
           </div>
+          <!-- Decorative Background Wave -->
+          <svg class="absolute -right-6 -bottom-6 w-24 h-24 text-emerald-500 opacity-[0.08] pointer-events-none" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M30,90 C45,70 55,85 70,65 C85,45 80,55 100,40 L100,100 L30,100 Z" />
+          </svg>
         </div>
 
         <!-- Pending Doses -->
-        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#F59E0B]">
-          <div class="absolute -right-6 -bottom-6 bg-[#F59E0B]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
-          <div class="flex justify-between items-start z-10">
-            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
-            <div class="bg-amber-50 dark:bg-amber-950/40 rounded-full p-2 text-amber-500">
-              <svg class="h-4.5 w-4.5 stroke-amber-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div class="status-card pending-card">
+          <div class="status-card-content">
+            <div class="card-icon-container icon-pending">
+              <svg class="h-6 w-6 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.25">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 2v4a5 5 0 002 4v4a5 5 0 00-2 4v4h12v-4a5 5 0 00-2-4v-4a5 5 0 002-4V2H6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h12M10 7h4M10 17h4" />
               </svg>
             </div>
+            <div class="card-text-container">
+              <span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Pending</span>
+              <span class="text-sm font-semibold text-amber-600 dark:text-amber-400">Awaiting Action</span>
+              <span class="card-description text-[11px] text-slate-500 dark:text-slate-400 font-medium">Doses waiting to be taken.</span>
+            </div>
           </div>
-          <div class="z-10">
-            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ pendingCount }}</p>
-            <p class="text-[9px] font-semibold text-amber-600 dark:text-amber-400 mt-2">Awaiting Action</p>
+          <div class="card-badge">
+            <span class="text-xl font-extrabold text-amber-600 dark:text-amber-400 leading-none">{{ pendingCount }}</span>
           </div>
+          <!-- Decorative Background Wave -->
+          <svg class="absolute -right-6 -bottom-6 w-24 h-24 text-amber-500 opacity-[0.08] pointer-events-none" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M30,90 C45,70 55,85 70,65 C85,45 80,55 100,40 L100,100 L30,100 Z" />
+          </svg>
         </div>
 
         <!-- Missed Doses -->
-        <div class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[155px] relative overflow-hidden group border-l-[4px] border-l-[#EF4444]">
-          <div class="absolute -right-6 -bottom-6 bg-[#EF4444]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
-          <div class="flex justify-between items-start z-10">
-            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Missed</p>
-            <div class="bg-rose-50 dark:bg-rose-950/40 rounded-full p-2 text-rose-500">
-              <svg class="h-4.5 w-4.5 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div class="status-card missed-card">
+          <div class="status-card-content">
+            <div class="card-icon-container icon-missed">
+              <div class="bg-white rounded-full p-1.5 w-7 h-7 flex items-center justify-center shadow-sm">
+                <svg class="h-3.5 w-3.5 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-text-container">
+              <span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Missed</span>
+              <span class="text-sm font-semibold text-rose-600 dark:text-rose-400">Doses Overdue</span>
+              <span class="card-description text-[11px] text-slate-500 dark:text-slate-400 font-medium">Doses you missed.</span>
             </div>
           </div>
-          <div class="z-10">
-            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ missedCount }}</p>
-            <p class="text-[9px] font-semibold text-rose-600 dark:text-rose-400 mt-2">Doses Overdue</p>
+          <div class="card-badge">
+            <span class="text-xl font-extrabold text-rose-600 dark:text-rose-400 leading-none">{{ missedCount }}</span>
           </div>
+          <!-- Decorative Background Wave -->
+          <svg class="absolute -right-6 -bottom-6 w-24 h-24 text-rose-500 opacity-[0.08] pointer-events-none" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M30,90 C45,70 55,85 70,65 C85,45 80,55 100,40 L100,100 L30,100 Z" />
+          </svg>
         </div>
       </div>
 
       <!-- Inventory Alert Grid -->
-      <div class="grid grid-cols-2 gap-3.5 w-full">
+      <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3.5 w-full inventory-card-grid">
         <!-- Critical Stock -->
-        <div (click)="goToLowStock()" 
-             class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[150px] relative overflow-hidden group border-l-[4px] border-l-[#EF4444] cursor-pointer transition-transform duration-300 hover:scale-[1.02]">
-          <div class="absolute -right-6 -bottom-6 bg-[#EF4444]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
-          <div class="flex justify-between items-start z-10">
-            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Critical Stock</p>
-            <div class="bg-rose-50 dark:bg-rose-950/40 rounded-full p-2 text-rose-500 flex items-center justify-center animate-pulse">
-              <svg class="h-4 w-4 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-              </svg>
+        <div (click)="goToLowStock()" class="status-card critical-stock-card cursor-pointer">
+          <div class="status-card-content">
+            <div class="card-icon-container icon-critical-stock">
+              <div class="bg-white rounded-full p-1.5 w-7 h-7 flex items-center justify-center shadow-sm">
+                <svg class="h-4 w-4 stroke-rose-500 fill-none" viewBox="0 0 24 24" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-text-container">
+              <span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Critical Stock</span>
+              <span class="text-sm font-semibold text-rose-600 dark:text-rose-400">Refill Needed Immediately</span>
+              <span class="card-description text-[11px] text-slate-500 dark:text-slate-400 font-medium">Medicine that needs refill right away.</span>
             </div>
           </div>
-          <div class="z-10">
-            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ criticalCount }}</p>
-            <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400 mt-2">Refill Needed Immediately</p>
+          <div class="card-badge">
+            <span class="text-xl font-extrabold text-rose-600 dark:text-rose-400 leading-none">{{ criticalCount }}</span>
           </div>
+          <!-- Decorative Background Ringing Bell -->
+          <svg class="absolute -right-2 -bottom-2 w-16 h-16 text-rose-500 opacity-[0.12] pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
+          </svg>
         </div>
 
         <!-- Running Low -->
-        <div (click)="goToLowStock()" 
-             class="premium-card hover-lift pt-4 px-4 pb-6 flex flex-col justify-between h-[150px] relative overflow-hidden group border-l-[4px] border-l-[#F59E0B] cursor-pointer transition-transform duration-300 hover:scale-[1.02]">
-          <div class="absolute -right-6 -bottom-6 bg-[#F59E0B]/5 w-12 h-12 rounded-full group-hover:scale-150 transition-all duration-500"></div>
-          <div class="flex justify-between items-start z-10">
-            <p class="text-[12px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Running Low</p>
-            <div class="bg-amber-50 dark:bg-amber-950/40 rounded-full p-2 text-amber-500 flex items-center justify-center">
-              <svg class="h-4 w-4 stroke-amber-500 fill-none" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        <div (click)="goToLowStock()" class="status-card running-low-card cursor-pointer">
+          <div class="status-card-content">
+            <div class="card-icon-container icon-running-low">
+              <svg class="h-6 w-6 stroke-white fill-none" viewBox="0 0 24 24" stroke-width="2.25">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
+            <div class="card-text-container">
+              <span class="text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Running Low</span>
+              <span class="text-sm font-semibold text-amber-600 dark:text-amber-400">Reorder Recommended</span>
+              <span class="card-description text-[11px] text-slate-500 dark:text-slate-400 font-medium">Medicine running low in stock.</span>
+            </div>
           </div>
-          <div class="z-10">
-            <p class="text-3xl font-black tracking-tight text-slate-800 dark:text-slate-100">{{ runningLowCount }}</p>
-            <p class="text-[10px] font-semibold text-amber-600 dark:text-amber-400 mt-2">Reorder Recommended</p>
+          <div class="card-badge">
+            <span class="text-xl font-extrabold text-amber-600 dark:text-amber-400 leading-none">{{ runningLowCount }}</span>
           </div>
+          <!-- Decorative Background Package Box -->
+          <svg class="absolute -right-3 -bottom-3 w-16 h-16 text-amber-500 opacity-[0.12] pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
         </div>
       </div>
 
@@ -263,6 +317,9 @@
               <div class="medication-details-box min-w-0">
                 <h4 class="medication-title font-extrabold text-[15px] text-slate-800 dark:text-slate-100">{{ med?.name }}</h4>
                 <p class="medication-subtitle text-[12px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{{ med?.dosage }} • {{ med?.category }}</p>
+                <p *ngIf="med?.startDate" class="text-[12px] font-semibold text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+                  📅 Start Date: {{ formatDateString(med.startDate) }}
+                </p>
                 <!-- Time Chips - show ALL scheduled times -->
                 <div class="medication-schedule flex flex-wrap gap-1.5 mt-2">
                   <span *ngFor="let time of (med?.schedule?.length ? med.schedule : (med?.reminderTime ? [med.reminderTime] : []))"
@@ -298,7 +355,7 @@
     </div>
 
     <!-- Health Tips Section -->
-    <div class="premium-card p-6 w-full">
+    <div class="health-insights-section premium-card p-6 w-full">
       <!-- Header with title -->
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold flex items-center gap-2" style="color: var(--text);">
@@ -315,43 +372,45 @@
       </div>
 
       <!-- Random Daily Tip Card -->
-      <div *ngIf="randomTip" class="mb-8 p-5 rounded-2xl border transition-all duration-300 hover:shadow-md"
-           style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(99, 102, 241, 0.01) 100%); border-color: rgba(99, 102, 241, 0.15);">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl w-12 h-12 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0" style="background-color: var(--card);">{{ randomTip.icon }}</div>
-          <div class="flex-1">
-            <h4 class="font-extrabold text-[15px] mb-1" style="color: var(--text);">{{ randomTip.title }}</h4>
-            <p class="text-[13px] leading-relaxed font-semibold" style="color: var(--text-muted);">{{ randomTip.description }}</p>
+      <div *ngIf="randomTip" class="health-tip-hero-card mb-8 p-6 rounded-[24px] border relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+        <div class="absolute -right-12 -top-12 w-28 h-28 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
+        <div class="flex flex-col sm:flex-row items-start gap-4 relative z-10">
+          <div class="health-tip-icon-container text-3xl w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm flex-shrink-0 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+            <span class="animated-health-icon">{{ randomTip.icon }}</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+              Tip of the Day
+            </span>
+            <h4 class="font-black text-[16px] mb-1 tracking-tight text-slate-800 dark:text-slate-100">{{ randomTip.title }}</h4>
+            <p class="text-[13px] leading-relaxed font-semibold text-slate-500 dark:text-slate-400">{{ randomTip.description }}</p>
           </div>
         </div>
       </div>
 
       <!-- Filter Buttons -->
       <div class="mb-6">
-        <p class="text-xs font-bold uppercase tracking-wider mb-3 text-slate-500 dark:text-slate-400">Filter by Category:</p>
+        <p class="text-[10px] font-extrabold uppercase tracking-widest mb-3 text-slate-400 dark:text-slate-500">Filter by Category:</p>
         <div class="flex flex-wrap gap-2">
           <button (click)="filterTips('all')" 
-            [ngClass]="{'active': activeFilter === 'all'}"
-            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border"
-            [ngStyle]="activeFilter === 'all' ? {'background-color': 'var(--primary)', 'color': 'white', 'border-color': 'var(--primary)', 'box-shadow': '0 4px 10px rgba(99,102,241,0.2)'} : {'background-color': 'var(--card)', 'color': 'var(--text-muted)', 'border-color': 'rgba(0,0,0,0.08)'}">
+            [class.active]="activeFilter === 'all'"
+            class="chip-filter chip-all px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1.5">
             All Tips
           </button>
           <button (click)="filterTips('medication')" 
-            [ngClass]="{'active': activeFilter === 'medication'}"
-            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
-            [ngStyle]="activeFilter === 'medication' ? {'background-color': '#0284C7', 'color': 'white', 'border-color': '#0284C7', 'box-shadow': '0 4px 10px rgba(2,132,199,0.2)'} : {'background-color': 'var(--card)', 'color': '#0284C7', 'border-color': 'rgba(2,132,199,0.2)'}">
+            [class.active]="activeFilter === 'medication'"
+            class="chip-filter chip-medication px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1.5">
             <span>💊</span> Medication
           </button>
           <button (click)="filterTips('nutrition')" 
-            [ngClass]="{'active': activeFilter === 'nutrition'}"
-            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
-            [ngStyle]="activeFilter === 'nutrition' ? {'background-color': '#D97706', 'color': 'white', 'border-color': '#D97706', 'box-shadow': '0 4px 10px rgba(217,119,6,0.2)'} : {'background-color': 'var(--card)', 'color': '#D97706', 'border-color': 'rgba(217,119,6,0.2)'}">
+            [class.active]="activeFilter === 'nutrition'"
+            class="chip-filter chip-nutrition px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1.5">
             <span>🥗</span> Nutrition
           </button>
           <button (click)="filterTips('mental')" 
-            [ngClass]="{'active': activeFilter === 'mental'}"
-            class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1"
-            [ngStyle]="activeFilter === 'mental' ? {'background-color': 'var(--primary)', 'color': 'white', 'border-color': 'var(--primary)', 'box-shadow': '0 4px 10px rgba(99,102,241,0.2)'} : {'background-color': 'var(--card)', 'color': 'var(--primary)', 'border-color': 'rgba(99,102,241,0.2)'}">
+            [class.active]="activeFilter === 'mental'"
+            class="chip-filter chip-mental px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center gap-1.5">
             <span>🧠</span> Mental Health
           </button>
         </div>
@@ -360,14 +419,13 @@
       <!-- Tips Grid -->
       <div class="grid grid-cols-1 gap-3">
         <div *ngFor="let tip of filteredTips" 
-          class="p-4 rounded-2xl border transition-all duration-300 hover:shadow-md hover:border-indigo-500/20 bg-white dark:bg-slate-900/10"
-          style="border-color: rgba(0,0,0,0.05);">
-          <div class="flex items-center gap-4">
-            <div class="text-2xl w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0" style="background-color: var(--background);">{{ tip.icon }}</div>
-            <div class="flex-1">
-              <h4 class="font-extrabold text-[14px] mb-0.5" style="color: var(--text);">{{ tip.title }}</h4>
-              <p class="text-[12px] leading-snug font-semibold" style="color: var(--text-muted);">{{ tip.description }}</p>
-            </div>
+          class="health-insight-card p-4.5 rounded-2xl border transition-all duration-300 bg-white dark:bg-slate-900/40 border-slate-100 dark:border-slate-800/60 shadow-sm flex items-center gap-4">
+          <div class="health-tip-grid-icon text-2xl w-11 h-11 flex items-center justify-center rounded-xl flex-shrink-0 bg-slate-50 dark:bg-slate-950 border border-slate-100/10">
+            <span class="animated-grid-icon">{{ tip.icon }}</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-sm text-slate-800 dark:text-slate-100 mb-0.5 tracking-tight truncate">{{ tip.title }}</h4>
+            <p class="text-[12px] leading-relaxed font-semibold text-slate-500 dark:text-slate-400">{{ tip.description }}</p>
           </div>
         </div>
       </div>

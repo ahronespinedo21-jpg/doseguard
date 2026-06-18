@@ -67,6 +67,11 @@ const User = sequelize.define('User', {
   timestamps: true,
   hooks: {
     beforeCreate: async (user) => {
+      if (!user.id) {
+        const crypto = require('crypto');
+        user.id = crypto.randomUUID ? crypto.randomUUID() : `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        console.log('[USER-MODEL] Generated fallback ID:', user.id);
+      }
       if (user.password) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);

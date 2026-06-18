@@ -1,7 +1,10 @@
-/* Admin Login Styling - Premium Split Layout */
+/* Admin Login Styling - Premium Dark Executive Split Layout */
 
 :host {
   display: block;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -21,10 +24,10 @@
     transform: translate(0, 0) scale(1);
   }
   33% {
-    transform: translate(35px, -40px) scale(1.05);
+    transform: translate(30px, -45px) scale(1.08);
   }
   66% {
-    transform: translate(-20px, 25px) scale(0.95);
+    transform: translate(-25px, 20px) scale(0.92);
   }
 }
 
@@ -62,27 +65,40 @@
 }
 
 .auth-background {
-  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 50%, #FECDD3 100%);
+  min-height: 100dvh;
+  max-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow: hidden;
   position: relative;
-}
-
-.dark .auth-background {
-  background: linear-gradient(135deg, #020617 0%, #0B0F19 50%, #31101D 100%);
+  background: linear-gradient(135deg, #0F172A 0%, #020617 60%, #1E1B4B 100%);
 }
 
 /* Glassmorphism Outer Card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 25px 60px -15px rgba(244, 63, 94, 0.12);
+  max-height: calc(100dvh - 3rem);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
 
-.dark .glass-card {
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.6);
+/* Form Container with Internal Scroll support */
+.auth-form-container {
+  padding: 3rem; /* equivalent to p-12 */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Inputs */
@@ -91,25 +107,89 @@
 }
 
 .input-field:focus {
-  background: #FFFFFF !important;
-  box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.14);
-}
-
-.dark .input-field:focus {
   background: #0F172A !important;
   box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.25);
 }
 
-/* Responsive Overrides */
+/* Responsive Customization */
 @media (max-width: 768px) {
-  .glass-card {
-    max-width: 450px;
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 24px;
+  .auth-background {
+    padding: 0.75rem;
   }
   
-  .dark .glass-card {
+  .glass-card {
+    max-width: 450px;
+    max-height: calc(100dvh - 1.5rem);
+    flex-direction: column;
     background: rgba(15, 23, 42, 0.98);
+    border-radius: 24px;
+  }
+
+  .auth-form-container {
+    padding: 1.75rem 1.5rem;
+  }
+}
+
+/* Height-based Spacing Reductions */
+@media (max-height: 740px) {
+  .auth-form-container {
+    padding: 1.25rem 1.25rem;
+  }
+  .auth-logo-margin {
+    margin-bottom: 1rem !important;
+  }
+  .auth-header-margin {
+    margin-bottom: 1rem !important;
+  }
+  .auth-form-spacing > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: 0.875rem !important; /* space-y-3.5 */
+  }
+  .auth-input-padding {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+  }
+  .auth-btn-padding {
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+  }
+  .auth-divider-margin {
+    margin-top: 0.875rem !important;
+    margin-bottom: 0.875rem !important;
+  }
+  .auth-footer-spacing > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.625rem !important;
+  }
+}
+
+@media (max-height: 667px) {
+  .auth-form-container {
+    padding: 0.875rem 1rem;
+  }
+  .auth-logo-margin {
+    margin-bottom: 0.5rem !important;
+  }
+  .auth-header-margin {
+    margin-bottom: 0.5rem !important;
+  }
+  .auth-form-spacing > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: 0.625rem !important; /* space-y-2.5 */
+  }
+  .auth-input-padding {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  .auth-btn-padding {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  .auth-divider-margin {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .auth-footer-spacing > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5rem !important;
   }
 }
 

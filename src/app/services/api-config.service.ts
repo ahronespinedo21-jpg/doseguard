@@ -14,13 +14,13 @@ import { Device } from '@capacitor/device';
 export class ApiConfigService {
 
   // ─── CHANGE THIS IF YOUR LAN IP CHANGES ───────────────────────────────────
-  private readonly LAN_IP      = '192.168.10.206';  // Updated: current PC IP
+  private readonly LAN_IP = '192.168.10.206';  // Updated: current PC IP
   private readonly PORT        = '3001';
   // ──────────────────────────────────────────────────────────────────────────
 
   private readonly EMULATOR_URL = `http://10.0.2.2:${this.PORT}/api`;
-  private readonly LAN_URL      = `http://${this.LAN_IP}:${this.PORT}/api`;
-  private readonly LOCAL_URL    = `http://localhost:${this.PORT}/api`;
+  private readonly LAN_URL = `http://${this.LAN_IP}:${this.PORT}/api`;
+  private readonly LOCAL_URL = `http://localhost:${this.PORT}/api`;
 
   private apiUrl: string;
 
@@ -28,12 +28,8 @@ export class ApiConfigService {
     // ✅ SYNCHRONOUS — no race condition possible
     const platform = Capacitor.getPlatform();
 
-    if (platform === 'android') {
-      // Default to LAN IP for real physical device.
-      // Will be refined to 10.0.2.2 if emulator is detected (async, below).
-      this.apiUrl = this.LAN_URL;
-    } else if (platform === 'ios') {
-      this.apiUrl = this.LAN_URL;
+    if (platform === 'android' || platform === 'ios') {
+      this.apiUrl = 'https://doseguard-backend.onrender.com/api';
     } else {
       // Web browser
       const hostname = window.location.hostname;
